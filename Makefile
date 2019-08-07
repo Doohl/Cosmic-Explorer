@@ -3,8 +3,8 @@
 #   apt-get install libsdl2-dev
 # Mac OS X:
 #   brew install sdl2
-# MSYS2:
-#   pacman -S mingw-w64-i686-SDL
+# MSYS2 (https://github.com/orlp/dev-on-windows/wiki/Installing-GCC--&-MSYS2):
+#   pacman -S mingw-w64-i686-SDL2
 
 EXE = bin/CosmicExplorer
 SOURCES = main.cpp
@@ -14,7 +14,7 @@ OBJS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
 UNAME_S := $(shell uname -s)
 
 CXXFLAGS = -Iimgui/examples -Iimgui/
-CXXFLAGS += -g -Wall -Wformat -Wextra
+CXXFLAGS += -g -Wall -Wformat -Wextra -std=c++17 -m64
 
 LIBS =
 
