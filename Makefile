@@ -45,10 +45,11 @@ endif
 
 # WINDOWS FLAGS
 ifeq ($(OS),Windows_NT)
-   LIBS += -static-libgcc -static-libstdc++ -lgdi32 -lopengl32 -limm32 `pkg-config --static --libs sdl2`
+	ECHO_MESSAGE = "MinGW"
+	LIBS += -static-libgcc -static-libstdc++ -lgdi32 -lopengl32 -limm32 `pkg-config --static --libs sdl2`
 
-   CXXFLAGS += -Iimgui/examples/libs/gl3w `pkg-config --cflags sdl2`
-   CFLAGS = $(CXXFLAGS)
+	CXXFLAGS += -Iimgui/examples/libs/gl3w `pkg-config --cflags sdl2`
+	CFLAGS = $(CXXFLAGS)
 endif
 
 # BUILD RULES

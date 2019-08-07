@@ -10,7 +10,7 @@
             },
             "problemMatcher": "$gcc",
             "windows": {
-                "command": "make"
+                "command": "mingw32-make"
             },
             "linux": {
                 "command": "bash"
@@ -25,7 +25,7 @@
             },
             "problemMatcher": "$gcc",
             "windows": {
-                "command": "make run"
+                "command": "mingw32-make run"
             },
             "linux": {
                 "command": "bash"
@@ -35,7 +35,7 @@
             "label": "clean",
             "type": "shell",
             "windows": {
-                "command": "make clean"
+                "command": "mingw32-make clean"
             },
             "linux": {
                 "command": "bash"
@@ -45,7 +45,7 @@
             "label": "run",
             "type": "shell",
             "windows": {
-                "command": "./bin/main.exe"
+                "command": "./bin/CosmicExplorer.exe"
             },
             "linux": {
                 "command": "bash"
