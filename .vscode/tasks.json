@@ -1,0 +1,55 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": "$gcc",
+            "windows": {
+                "command": "make"
+            },
+            "linux": {
+                "command": "bash"
+            },
+        },
+        {
+            "label": "build & run",
+            "type": "shell",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": "$gcc",
+            "windows": {
+                "command": "make run"
+            },
+            "linux": {
+                "command": "bash"
+            }
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "windows": {
+                "command": "make clean"
+            },
+            "linux": {
+                "command": "bash"
+            }
+        },
+        {
+            "label": "run",
+            "type": "shell",
+            "windows": {
+                "command": "./bin/main.exe"
+            },
+            "linux": {
+                "command": "bash"
+            }
+        }
+    ]
+}
