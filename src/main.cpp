@@ -46,7 +46,7 @@ int main(int, char **) {
 	ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
 	ImGui_ImplOpenGL3_Init(glsl_version);
 
-	bool show_demo_window = true;
+	// bool show_demo_window = true;
     // bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
@@ -65,8 +65,8 @@ int main(int, char **) {
 		ImGui_ImplSDL2_NewFrame(window);
 		ImGui::NewFrame();
 
-		if(show_demo_window)
-			ImGui::ShowDemoWindow(&show_demo_window);
+		// if(show_demo_window)
+			// ImGui::ShowDemoWindow(&show_demo_window);
 
 		ImGui::Render();
         SDL_GL_MakeCurrent(window, gl_context);
