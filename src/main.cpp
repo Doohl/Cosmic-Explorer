@@ -1,18 +1,18 @@
-#include "imgui.h"
-#include "imgui_impl_sdl.h"
-#include "imgui_impl_opengl3.h"
-
-#include <GL/gl3w.h>
 #include <stdio.h>
 #include <iostream>
 #include <SDL.h>
+#include <GL/gl3w.h>
+
+#include "imgui.h"
+#include "imgui_impl_sdl.h"
+#include "imgui_impl_opengl3.h"
 
 int main(int, char **) {
 	
 	// Setup SDL
 	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
 		std::cerr << "Error: \n" << SDL_GetError();
-		return -1; 
+		return -1;
 	}
 
 	const char* glsl_version = "#version 130";
