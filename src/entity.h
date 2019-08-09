@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "logic_manager.h"
+#include "typedefs.h"
 #include "kepler_orbit.h"
 
 // Mutually-exclusive entity types
@@ -52,25 +52,31 @@ typedef struct {
 class Entity {
 public:
 	Entity()
-		: name("unknown"),
+		: position(),
+		physicalProperties(),
+		id(0),
+		name("unknown"),
 		type(EntityType::unknown),
 		parentEntity(nullptr),
-		position(),
-		physicalProperties()
+		orbitalProperties(nullptr)
 	{}
 	Entity(EntityType initType, std::string initName)
-		: name(initName),
+		: position(),
+		physicalProperties(),
+		id(0),
+		name(initName),
 		type(initType),
 		parentEntity(nullptr),
-		position(),
-		physicalProperties()
+		orbitalProperties(nullptr)
 	{}
 	Entity(EntityType initType)
-		: name("unknown"),
+		: position(),
+		physicalProperties(),
+		id(0),
+		name("unknown"),
 		type(initType),
 		parentEntity(nullptr),
-		position(),
-		physicalProperties()
+		orbitalProperties(nullptr)
 	{}
 
 	entityID getID() const {
@@ -82,15 +88,18 @@ public:
 	EntityType getType() const {
 		return type;
 	}
-	std::shared_ptr<Entity> getParentEntity() const {
+	Entity* getParentEntity() const {
 		return parentEntity;
 	}
 	std::vector<std::shared_ptr<Entity>> getChildEntities() const {
 		return childEntities;
 	}
-	std::shared_ptr<KeplerOrbit> getOrbitalProperties() const {
-		return orbitalProperties;
+	KeplerOrbit* getOrbitalProperties() const {
+		return orbitalProperties.get();
 	}
+
+	// Assign a new ID to this entity (will not work if ID already set)
+	void setID(entityID newID);
 
 	// Entity's current position on 2D grid
 	coordinate2D position;
@@ -110,11 +119,11 @@ private:
 
 	// Pointer to the parent entity where this entity is located, if any.
 	// 	Example: a star is the parent of a planet
-	std::shared_ptr<Entity> parentEntity;
+	Entity* parentEntity;
 
 	// Vector of child entities, if any
 	std::vector<std::shared_ptr<Entity>> childEntities;
 
 	// A container for orbital properties and logic
-	std::shared_ptr<KeplerOrbit> orbitalProperties;
+	std::unique_ptr<KeplerOrbit> orbitalProperties;
 };
