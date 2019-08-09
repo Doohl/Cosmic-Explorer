@@ -37,16 +37,32 @@ enum EntityModifier {
 };
 
 // A simple (x,y) coordinate system
-typedef struct {
-	long int x = 0;
-	long int y = 0;
-} coordinate2D;
+class Point2D {
+public:
+
+	Point2D()
+		: x(0),
+		y(0)
+	{}
+
+	Point2D(long int initX, long int initY)
+		: x(initX),
+		y(initY)
+	{}
+
+	void set(long int setX, long int setY);
+
+	long int x;
+	long int y;
+};
 
 // Some physical properties
-typedef struct {
+class PhysicalProperties {
+public:
+
 	long int radius = 0;
 	long int minRadius = 0;
-} physicalProperties;
+};
 
 
 class Entity {
@@ -102,10 +118,10 @@ public:
 	void setID(entityID newID);
 
 	// Entity's current position on 2D grid
-	coordinate2D position;
+	std::unique_ptr<Point2D> position;
 
 	// Entity's associated physical properties (used primarily for rendering)
-	physicalProperties physicalProperties;
+	std::unique_ptr<PhysicalProperties> physicalProperties;
 
 private:
 	// Unique ID assigned to this entity upon creation
