@@ -41,27 +41,27 @@ class Point2D {
 public:
 
 	Point2D()
-		: x(0),
-		y(0)
+		: x(0.0),
+		y(0.0)
 	{}
 
-	Point2D(long int initX, long int initY)
+	Point2D(double initX, double initY)
 		: x(initX),
 		y(initY)
 	{}
 
-	void set(long int setX, long int setY);
+	void set(double setX, double setY);
 
-	long int x;
-	long int y;
+	double x;
+	double y;
 };
 
 // Some physical properties
 class PhysicalProperties {
 public:
-
-	long int radius = 0;
-	long int minRadius = 0;
+	double radius = 0;
+	double minRadius = 0;
+	double mass = 0;
 };
 
 

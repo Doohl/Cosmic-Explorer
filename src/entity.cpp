@@ -1,6 +1,6 @@
 #include "entity.h"
 
-void Point2D::set(long int setX, long int setY) {
+void Point2D::set(double setX, double setY) {
 	x = setX;
 	y = setY;
 }
