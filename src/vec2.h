@@ -1,5 +1,6 @@
 #pragma once
 
+// A simple 2D vector for storing directions and points in space
 struct Vec2 {
 	Vec2()
 		: x(0.0), y(0.0)
@@ -13,3 +14,6 @@ struct Vec2 {
 
 	double x, y;
 };
+
+// Return a rotated point along an x and y origin
+Vec2 rotatePoint(Vec2 point, const Vec2& origin, const double& angle);
