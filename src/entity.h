@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "typedefs.h"
+#include "vec2.h"
 #include "kepler_orbit.h"
 
 // Mutually-exclusive entity types
@@ -34,26 +35,6 @@ enum EntityModifier {
 	desert = 0x10,
 	dwarf = 0x20,
 	giant = 0x40
-};
-
-// A simple (x,y) coordinate system
-class Point2D {
-public:
-
-	Point2D()
-		: x(0.0),
-		y(0.0)
-	{}
-
-	Point2D(double initX, double initY)
-		: x(initX),
-		y(initY)
-	{}
-
-	void set(double setX, double setY);
-
-	double x;
-	double y;
 };
 
 // Some physical properties
@@ -110,15 +91,15 @@ public:
 	std::vector<std::shared_ptr<Entity>> getChildEntities() const {
 		return childEntities;
 	}
-	KeplerOrbit* getOrbitalProperties() const {
-		return orbitalProperties.get();
+	KeplerOrbit& getOrbitalProperties() const {
+		return *orbitalProperties;
 	}
 
 	// Assign a new ID to this entity (will not work if ID already set)
 	void setID(entityID newID);
 
 	// Entity's current position on 2D grid
-	std::unique_ptr<Point2D> position;
+	std::unique_ptr<Vec2> position;
 
 	// Entity's associated physical properties (used primarily for rendering)
 	std::unique_ptr<PhysicalProperties> physicalProperties;
