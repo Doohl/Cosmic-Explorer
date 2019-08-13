@@ -7,8 +7,25 @@
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
 
-int main(int, char **) {
+#define DOCTEST_CONFIG_IMPLEMENT
+#include "doctest.h"
+
+int main(int argc, char** argv) {
+	std::cout << "test";
+
+	int res = 0;
+	doctest::Context ctx;
+	ctx.setOption("abort-after", 5);
+	ctx.setOption("no-breaks", true);
+	ctx.setOption("order-by", "file");
+	ctx.applyCommandLine(argc, argv);
+
+	res = ctx.run();
+	if(ctx.shouldExit())
+		return res;
 	
+	std::cout << std::flush;
+
 	// Setup SDL
 	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
 		std::cerr << "Error: \n" << SDL_GetError();
@@ -85,5 +102,5 @@ int main(int, char **) {
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 
-	return 0;
+	return res;
 }

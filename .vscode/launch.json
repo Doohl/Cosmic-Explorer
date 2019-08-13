@@ -10,17 +10,17 @@
 			"request": "launch",
 			"program": "${workspaceFolder}/bin/CosmicExplorer.exe",
 			"args": [],
-			"stopAtEntry": true,
+			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}/bin",
 			"environment": [],
-			"externalConsole": true,
+			"externalConsole": false,
 			"MIMode": "gdb",
 			"miDebuggerPath": "C:/msys64/mingw64/bin/gdb.exe",
 			"setupCommands": [
 				{
 					"description": "Enable pretty-printing for gdb",
 					"text": "-enable-pretty-printing",
-					"ignoreFailures": true
+					"ignoreFailures": false
 				}
 			]
 		}
