@@ -48,8 +48,8 @@ ifeq ($(OS),Windows_NT)
 	ECHO_MESSAGE = "MinGW"
 	LIBS = -static-libgcc -static-libstdc++ -lgdi32 -lopengl32 -limm32 `pkg-config --static --libs sdl2`
 
-	INCLUDES += -Iimgui/examples/libs/gl3w `pkg-config --cflags sdl2`
-	CFLAGS = -Iimgui/examples/libs/gl3w
+	INCLUDES += -Iimgui/examples/libs/gl3w `pkg-config --cflags sdl2` -mconsole -mwindows
+	CFLAGS = -static-libgcc -Iimgui/examples/libs/gl3w
 endif
 
 CXXFLAGS := $(CXXFLAGS) $(INCLUDES)
