@@ -1,8 +1,15 @@
+# Linux:
+#   apt-get install libsdl2-dev
+# Mac OS X:
+#   brew install sdl2
+# MSYS2:
+#   pacman -S mingw-w64-x86_64-SDL2
+
 SRC_DIR = src
 OBJ_DIR = obj
 BIN_DIR = bin
 
-EXE := $(BIN_DIR)/CosmicExplorer.exe
+EXE := $(BIN_DIR)/CosmicExplorer
 
 SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
 SOURCES += imgui/examples/imgui_impl_sdl.cpp imgui/examples/imgui_impl_opengl3.cpp
@@ -26,10 +33,10 @@ UNAME_S := $(shell uname -s)
 # LINUX FLAGS
 ifeq ($(UNAME_S), Linux)
 	ECHO_MESSAGE = "Linux"
-	LIBS += -lGL -ldl `sdl2-config --libs`
+	LIBS = -lGL -ldl `sdl2-config --libs`
 
-	CXXFLAGS += -I../libs/gl3w `sdl2-config --cflags`
-	CFLAGS = $(CXXFLAGS)
+	INCLUDES += -Iimgui/examples/libs/gl3w `sdl2-config --cflags`
+	CFLAGS = -static-libgcc -Iimgui/examples/libs/gl3w
 endif
 
 # OS X FLAGS
@@ -48,7 +55,8 @@ ifeq ($(OS),Windows_NT)
 	ECHO_MESSAGE = "MinGW"
 	LIBS = -static-libgcc -static-libstdc++ -lgdi32 -lopengl32 -limm32 `pkg-config --static --libs sdl2`
 
-	INCLUDES += -Iimgui/examples/libs/gl3w `pkg-config --cflags sdl2` -mconsole -mwindows
+	CXXFLAGS += -mconsole -mwindows
+	INCLUDES += -Iimgui/examples/libs/gl3w `pkg-config --cflags sdl2`
 	CFLAGS = -static-libgcc -Iimgui/examples/libs/gl3w
 endif
 
