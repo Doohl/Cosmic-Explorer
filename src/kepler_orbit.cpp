@@ -3,8 +3,7 @@
 #include <cmath>
 
 #include "entity.h"
-
-#define M_PI		3.14159265358979323846
+#include "utilities.h"
 
 double eccentricAnomalyApproximation(const int& maxComputations, double eccentricAnomaly, 
 	const double& meanAnomaly, const double& eccentricity, const double& error) {
@@ -28,9 +27,9 @@ Vec2 KeplerOrbit::getCenter(const Vec2& focus) const {
 double KeplerOrbit::computeEccentricAnomaly(const double& meanAnomaly) const {
 	// Orbits of e > 0.8 -> initial value of pi used
 	if(eccentricity > 0.9) {
-		return eccentricAnomalyApproximation(1000, M_PI, meanAnomaly, eccentricity, 10e-15);
+		return eccentricAnomalyApproximation(1000, Util::PI, meanAnomaly, eccentricity, 10e-15);
 	} else if(eccentricity > 0.8) {
-		return eccentricAnomalyApproximation(500, M_PI, meanAnomaly, eccentricity, 10e-15);
+		return eccentricAnomalyApproximation(500, Util::PI, meanAnomaly, eccentricity, 10e-15);
 	} else {
 		return eccentricAnomalyApproximation(150, meanAnomaly, meanAnomaly, eccentricity, 10e-15);
 	}
@@ -54,7 +53,7 @@ Vec2 KeplerOrbit::computeCoordinates(const Vec2& focus, const universeTime& time
 	double trueAnomaly = computeTrueAnomaly(timeSinceEpoch);
 
 	// The distance from the focus in km
-	double distance = (semimajorAxis * 1000) * (1 - std::pow(eccentricity, 2)) / (1 + eccentricity * std::cos(trueAnomaly)) / 1000; // convert from m to km at the end
+	double distance = (semimajorAxis * 1000) * (1 - eccentricity*eccentricity) / (1 + eccentricity * std::cos(trueAnomaly)) / 1000; // convert from m to km at the end
 	
 	double x = focus.x + (distance * std::cos(trueAnomaly));
 	double y = focus.y + (distance * std::sin(trueAnomaly));

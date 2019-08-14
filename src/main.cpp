@@ -11,8 +11,6 @@
 #include "doctest.h"
 
 int main(int argc, char** argv) {
-	std::cout << "test";
-
 	int res = 0;
 	doctest::Context ctx;
 	ctx.setOption("abort-after", 5);

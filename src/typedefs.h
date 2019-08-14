@@ -4,4 +4,4 @@
 typedef unsigned int entityID;
 
 // Seconds relative to the J2000 Epoch
-typedef unsigned long int universeTime;
+typedef double universeTime;

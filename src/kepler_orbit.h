@@ -4,6 +4,7 @@
 
 #include "typedefs.h"
 #include "vec2.h"
+#include "utilities.h"
 
 // Perform a Newton Approximation for Eccentric Anomaly
 double eccentricAnomalyApproximation(const int& maxComputations, double eccentricAnomaly, 
@@ -31,7 +32,52 @@ public:
 		meanAngularMotion = std::sqrt(standardGravTotal / std::pow(semimajorAxis * 1000.0, 3.0));
 		if(clockwise)
 			meanAngularMotion *= -1;
-		period = std::sqrt(std::pow(semimajorAxis / 1.496e+9, 3)); // convert semimajorAxis from km to AU
+		period = std::sqrt(std::pow(semimajorAxis / Util::AU, 3)); // convert semimajorAxis from km to AU
+	}
+	double getSemimajorAxis() const {
+		return semimajorAxis;
+	}
+	double getSemiminorAxis() const {
+		return semiminorAxis;
+	}
+	double getEccentricity() const {
+		return eccentricity;
+	}
+	universeTime getEpochTime() const {
+		return epochTime;
+	}
+	double getEpochAnomaly() const {
+		return epochAnomaly;
+	}
+	double getLPeriapsis() const {
+		return lPeriapsis;
+	}
+	double getLAscending() const {
+		return lAscending;
+	}
+	double getAPeriapsis() const {
+		return aPeriapsis;
+	}
+	double getAPrecession() const {
+		return aPrecession;
+	}
+	bool getClockwise() const {
+		return clockwise;
+	}
+	double getPeriapsis() const {
+		return periapsis;
+	}
+	double getApoapsis() const {
+		return apoapsis;
+	}
+	double getStandardGravTotal() const {
+		return standardGravTotal;
+	}
+	double getMeanAngularMotion() const {
+		return meanAngularMotion;
+	}
+	universeTime getPeriod() const {
+		return period;
 	}
 
 	// Get the center point of the ellipse representing this orbit
@@ -64,7 +110,7 @@ private:
 	double epochAnomaly;
 	// Longitude of the periapsis (radians)
 	double lPeriapsis;
-	// Longitude of the ascending node
+	// Longitude of the ascending node (radians)
 	double lAscending;
 	// Argument of the periapsis (radians)
 	double aPeriapsis;
@@ -84,5 +130,5 @@ private:
 	// Mean angular motion
 	double meanAngularMotion;
 	// Orbital period: time for one revolution, in years
-	double period;
+	universeTime period;
 };
