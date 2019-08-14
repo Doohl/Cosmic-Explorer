@@ -1,15 +1,17 @@
-language: cpp
+dist: bionic
+sudo: required
+language:
+  - cpp
 compiler:
-- gcc
+  - gcc
 os:
-- linux
-before_install:
-- echo $LANG
-- echo $LC_ALL
-- if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get install libsdl2-dev; fi
+  - linux
+addons:
+  apt:
+    packages:
+      - libsdl2-dev
 script:
-- if [ $TRAVIS_OS_NAME == linux ]; then make; fi
-
+  - make && ./bin/CosmicExplorer --exit
 env:
   global:
-  - LANG="en_US.UTF-8"
+    - LANG="en_US.UTF-8"

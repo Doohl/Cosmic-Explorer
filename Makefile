@@ -1,3 +1,7 @@
+# Before running make:
+#	git submodule init
+#	git submodule update
+#
 # Linux:
 #   apt-get install libsdl2-dev
 # Mac OS X:
@@ -39,7 +43,7 @@ ifeq ($(UNAME_S), Linux)
 	CFLAGS = -static-libgcc -Iimgui/examples/libs/gl3w
 endif
 
-# OS X FLAGS
+# OS X FLAGS (NOT TESTED)
 ifeq ($(UNAME_S), Darwin)
 	ECHO_MESSAGE = "Mac OS X"
 	LIBS += -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo `sdl2-config --libs`
