@@ -35,7 +35,7 @@ ifeq ($(UNAME_S), Linux)
 	ECHO_MESSAGE = "Linux"
 	LIBS = -lGL -ldl `sdl2-config --libs`
 
-	INCLUDES += -Iimgui/examples/libs/gl3w `sdl2-config --cflags`
+	INCLUDES += `sdl2-config --cflags`
 	CFLAGS = -static-libgcc -Iimgui/examples/libs/gl3w
 endif
 
@@ -56,7 +56,7 @@ ifeq ($(OS),Windows_NT)
 	LIBS = -static-libgcc -static-libstdc++ -lgdi32 -lopengl32 -limm32 `pkg-config --static --libs sdl2`
 
 	CXXFLAGS += -mconsole -mwindows
-	INCLUDES += -Iimgui/examples/libs/gl3w `pkg-config --cflags sdl2`
+	INCLUDES += `pkg-config --cflags sdl2`
 	CFLAGS = -static-libgcc -Iimgui/examples/libs/gl3w
 endif
 
