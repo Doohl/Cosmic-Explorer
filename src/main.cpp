@@ -6,6 +6,7 @@
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
+#include "logic_manager.h"
 
 #define DOCTEST_CONFIG_IMPLEMENT
 #include "doctest.h"
@@ -21,8 +22,6 @@ int main(int argc, char** argv) {
 	res = ctx.run();
 	if(ctx.shouldExit())
 		return res;
-	
-	std::cout << std::flush;
 
 	// Setup SDL
 	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
@@ -64,6 +63,8 @@ int main(int argc, char** argv) {
 	// bool show_demo_window = true;
     // bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+	LogicManager logic;
 
 	bool done = false;
 	while(!done) {
