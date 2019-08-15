@@ -27,7 +27,23 @@
 			"epochAnomaly": 6.259047404,
 			"lAscending": -0.196535244,
 			"aPeriapsis": 1.99330266505
+		},
+		"children": [
+		{
+			"name": "Luna",
+			"radius": 1737.1,
+        	"mass": 7.342e+22,
+			"tilt": 1.5424,
+			"orbit": {
+				"semimajorAxis": 384399,
+				"eccentricity": 0.0549,
+				"epochTime": 0,
+				"epochAnomaly": 2.214976985708,
+				"lAscending": 2.18305783,
+				"aPeriapsis": 5.55276502
+			}
 		}
+		]
 	},
 	{
 		"name": "Mars"
