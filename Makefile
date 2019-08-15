@@ -30,7 +30,7 @@ INCLUDES = -Iimgui/examples -Iimgui/
 
 ## OpenGL loader
 SOURCES += imgui/examples/libs/gl3w/GL/gl3w.c
-INCLUDES += -Iimgui/examples/libs/gl3w -Idoctest
+INCLUDES += -Iimgui/examples/libs/gl3w -Iinclude
 
 UNAME_S := $(shell uname -s)
 
@@ -85,6 +85,8 @@ $(OBJ_DIR)/%.o:imgui/examples/libs/gl3w/GL/%.c
 
 all: $(EXE)
 	@echo Build complete for $(ECHO_MESSAGE)
+	rm -rf $(BIN_DIR)/data
+	cp -R data $(BIN_DIR)/data/
 
 $(EXE): $(OBJS)
 	@mkdir -p $(BIN_DIR)

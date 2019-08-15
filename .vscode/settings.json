@@ -35,6 +35,10 @@
 		"tuple": "cpp",
 		"typeinfo": "cpp",
 		"utility": "cpp",
-		"cmath": "cpp"
+		"cmath": "cpp",
+		"bitset": "cpp",
+		"deque": "cpp",
+		"regex": "cpp",
+		"valarray": "cpp"
 	}
 }
