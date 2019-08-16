@@ -21,3 +21,8 @@ void Vec2::set(const double& _x, const double& _y) {
 	x = _x;
 	y = _y;
 }
+
+void Vec2::set(const Vec2& vec) {
+	x = vec.x;
+	y = vec.y;
+}

@@ -11,6 +11,7 @@ struct Vec2 {
 
 	// Set a new vector position
 	void set(const double& _x, const double& _y);
+	void set(const Vec2& vec);
 
 	double x, y;
 };

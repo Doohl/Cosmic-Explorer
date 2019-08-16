@@ -28,3 +28,14 @@ TEST_CASE("Rotating a Vec2") {
 	CHECK(rotated.x == doctest::Approx(-20).epsilon(0.0001));
 	CHECK(rotated.y == doctest::Approx(149.705627).epsilon(0.0001));
 }
+
+TEST_CASE("Setting existing Vec2s") {
+	Vec2 testVec = {0.0, 0.0};
+	testVec.set(500.0, 500.0);
+	CHECK(testVec.x == 500.0);
+	CHECK(testVec.y == 500.0);
+
+	testVec.set(Vec2(-50.0, -50.0));
+	CHECK(testVec.x == -50.0);
+	CHECK(testVec.y == -50.0);
+}
