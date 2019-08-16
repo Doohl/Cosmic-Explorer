@@ -85,15 +85,31 @@ public:
 	EntityType getType() const {
 		return type;
 	}
-	Entity* getParentEntity() const {
+	const Entity* getParentEntity() const {
 		return parentEntity;
 	}
 	std::vector<std::shared_ptr<Entity>> getChildEntities() const {
 		return childEntities;
 	}
-	KeplerOrbit& getOrbitalProperties() const {
-		return *orbitalProperties;
+	KeplerOrbit* getOrbitalProperties() const {
+		return orbitalProperties.get();
 	}
+	Vec2* getPosition() const {
+		return position.get();
+	}
+	
+	// Set a new (or starting) position
+	Vec2* setPosition(double x, double y);
+	// Set an undefined position (to be later set)
+	Vec2* setPosition(); 
+
+	// Define a set of orbital properties
+	KeplerOrbit* setOrbitalProperties(double _semimajorAxis, double _eccentricity, universeTime _epochTime,
+		double _epochAnomaly, double _lAscending, double _aPeriapsis, double _standardGravTotal,
+		bool _clockwise);
+	
+	// Define a parent entity
+	const Entity* setParentEntity(const Entity* parent);
 
 	// Assign a new ID to this entity (will not work if ID already set)
 	void setID(entityID newID);
@@ -116,7 +132,7 @@ private:
 
 	// Pointer to the parent entity where this entity is located, if any.
 	// 	Example: a star is the parent of a planet
-	Entity* parentEntity;
+	const Entity* parentEntity;
 
 	// Vector of child entities, if any
 	std::vector<std::shared_ptr<Entity>> childEntities;

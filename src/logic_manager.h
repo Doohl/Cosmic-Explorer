@@ -20,6 +20,14 @@ public:
 	// Create a new entity of a specified type
 	Entity* newEntity(EntityType type);
 
+	// Delete an entity from the game. Returns true if deletion was successful
+	bool deleteEntity(const Entity* entity);
+	// Delete the first entity in the game matching a name. Returns true if deletion was successful
+	bool deleteEntity(const std::string& name);
+
+	// Get the number of entities in the game
+	unsigned int getEntityCount() const;
+
 	// Advance time by a given increment (in seconds since the J2000 Epoch)
 	void clockForward(universeTime timeIncrement);
 
