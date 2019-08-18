@@ -36,6 +36,17 @@ bool LogicManager::deleteEntity(const std::string& name) {
 	}
 	return false;
 }
+bool LogicManager::deleteEntity(const entityID& id) {
+	auto position = std::find_if(entities.begin(), entities.end(), [&id](const auto& iterEntity) {
+		return iterEntity->getID() == id;
+	});
+	// If the entity was found, erase it from the vector; deleting the unique_ptr
+	if(position != entities.end()) {
+		entities.erase(position);
+		return true;
+	}
+	return false;
+}
 
 unsigned int LogicManager::getEntityCount() const {
 	return entities.size();
@@ -48,7 +59,7 @@ void LogicManager::clockForward(universeTime increment) {
 		Entity* entity = iter->get();
 		KeplerOrbit* orbit = entity->getOrbitalProperties();
 		Vec2* currentPos = entity->getPosition();
-		const Entity* parent = entity->getParentEntity();
+		Entity* parent = entity->getParentEntity();
 
 		// If the orbit is a valid celestial orbiting something, compute its next position
 		if(orbit != nullptr && parent != nullptr && currentPos != nullptr)

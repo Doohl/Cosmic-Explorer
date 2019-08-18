@@ -24,6 +24,8 @@ public:
 	bool deleteEntity(const Entity* entity);
 	// Delete the first entity in the game matching a name. Returns true if deletion was successful
 	bool deleteEntity(const std::string& name);
+	// Delete an entity from the game, searching for its ID. Return true if deletion was successful
+	bool deleteEntity(const entityID& id);
 
 	// Get the number of entities in the game
 	unsigned int getEntityCount() const;

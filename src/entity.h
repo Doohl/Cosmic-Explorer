@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <iostream>
 
 #include "typedefs.h"
 #include "vec2.h"
@@ -75,6 +76,8 @@ public:
 		parentEntity(nullptr),
 		orbitalProperties(nullptr)
 	{}
+	~Entity(){
+	}
 
 	entityID getID() const {
 		return id;
@@ -85,10 +88,10 @@ public:
 	EntityType getType() const {
 		return type;
 	}
-	const Entity* getParentEntity() const {
+	Entity* getParentEntity() const {
 		return parentEntity;
 	}
-	std::vector<std::shared_ptr<Entity>> getChildEntities() const {
+	std::vector<Entity*> getChildEntities() const {
 		return childEntities;
 	}
 	KeplerOrbit* getOrbitalProperties() const {
@@ -97,6 +100,12 @@ public:
 	Vec2* getPosition() const {
 		return position.get();
 	}
+	PhysicalProperties* getPhysicalProperties() const {
+		return physicalProperties.get();
+	}
+
+	// Get all entities directly underneath this entity (itself included)
+	std::vector<Entity*> getEntityNetwork();
 	
 	// Set a new (or starting) position
 	Vec2* setPosition(double x, double y);
@@ -109,7 +118,9 @@ public:
 		bool _clockwise);
 	
 	// Define a parent entity
-	const Entity* setParentEntity(const Entity* parent);
+	Entity* setParentEntity(Entity* parent);
+	// Add a child entity (automatically sets the child's parent to this)
+	Entity* addChildEntity(Entity* child);
 
 	// Assign a new ID to this entity (will not work if ID already set)
 	void setID(entityID newID);
@@ -132,10 +143,10 @@ private:
 
 	// Pointer to the parent entity where this entity is located, if any.
 	// 	Example: a star is the parent of a planet
-	const Entity* parentEntity;
+	Entity* parentEntity;
 
 	// Vector of child entities, if any
-	std::vector<std::shared_ptr<Entity>> childEntities;
+	std::vector<Entity*> childEntities;
 
 	// A container for orbital properties and logic
 	std::unique_ptr<KeplerOrbit> orbitalProperties;

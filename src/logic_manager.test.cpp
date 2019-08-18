@@ -28,12 +28,21 @@ TEST_CASE("Entities can be deleted from LogicManager") {
 	CHECK(logic.deleteEntity(createdEntity));
 	CHECK(logic.getEntityCount() == 2);
 
-	CHECK(logic.deleteEntity("Earth"));
-	CHECK(logic.getEntityCount() == 1);
-
+	SUBCASE("Entities can be deleted via name") {
+		LogicManager subLogic;
+		subLogic.newEntity(EntityType::planet, "Earth");
+		CHECK(subLogic.deleteEntity("Earth"));
+		CHECK(subLogic.getEntityCount() == 0);
+	}
+	SUBCASE("Entities can be deleted via ID") {
+		LogicManager subLogic;
+		createdEntity = subLogic.newEntity(EntityType::unknown);
+		CHECK(subLogic.deleteEntity(createdEntity->getID()));
+		CHECK(subLogic.getEntityCount() == 0);
+	}
 	SUBCASE("New entities can be registered after entities were deleted") {
 		createdEntity = logic.newEntity(EntityType::unknown);
-		CHECK(logic.getEntityCount() == 2);
+		CHECK(logic.getEntityCount() == 3);
 		CHECK(createdEntity->getID() == 4);
 	}
 }
