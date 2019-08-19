@@ -36,7 +36,6 @@ else()
 			doctest
 			nlohmann_json
 		PUBLIC
-			`sdl2-config --libs`
 			-lGL
 			-ldl
 	)
