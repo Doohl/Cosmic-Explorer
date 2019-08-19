@@ -39,7 +39,6 @@ else()
 			`sdl2-config --libs`
 			-lGL
 			-ldl
-			-I/usr/include/SDL2 # hopefully solves some inconsistencies
 	)
 endif()
-include_directories(CosmicExplorer ${SDL2_INCLUDE_DIR})
+target_include_directories(CosmicExplorer PUBLIC ${SDL2_INCLUDE_DIR})

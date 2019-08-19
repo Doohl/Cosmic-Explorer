@@ -9,5 +9,5 @@ add_library(imgui
 	imgui_impl_opengl3.cpp
 )
 
-target_include_directories(imgui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(imgui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${SDL2_INCLUDE_DIR})
 target_link_libraries(imgui PRIVATE gl3w)
