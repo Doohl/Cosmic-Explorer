@@ -48,7 +48,7 @@ bool LogicManager::deleteEntity(const entityID& id) {
 	return false;
 }
 
-unsigned int LogicManager::getEntityCount() const {
+size_t LogicManager::getEntityCount() const {
 	return entities.size();
 }
 

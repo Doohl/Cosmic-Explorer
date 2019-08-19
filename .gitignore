@@ -5,4 +5,5 @@ bin
 .vscode/settings.json
 .vs
 out
+build
 CMakeSettings.json

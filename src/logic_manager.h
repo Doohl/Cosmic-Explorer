@@ -28,7 +28,7 @@ public:
 	bool deleteEntity(const entityID& id);
 
 	// Get the number of entities in the game
-	unsigned int getEntityCount() const;
+	size_t getEntityCount() const;
 
 	// Advance time by a given increment (in seconds since the J2000 Epoch)
 	void clockForward(universeTime timeIncrement);
