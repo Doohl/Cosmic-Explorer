@@ -13,7 +13,7 @@ You need to install the SDL2 and cmake packages using your distro's package mana
 doohl@pc:~/Cosmic-Explorer$ apt install libsdl2-dev cmake
 ```
 Use cmake to generate a makefile and compile. Example:
-```
+```console
 doohl@pc:~/Cosmic-Explorer$ mkdir build && cd build
 doohl@pc:~/Cosmic-Explorer/build$ cmake ..
 ...
