@@ -3,3 +3,6 @@ bin
 *.o
 *.d
 .vscode/settings.json
+.vs
+out
+CMakeSettings.json

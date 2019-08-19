@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <iostream>
+#define SDL_MAIN_HANDLED
 #include <SDL.h>
 
-#include "GL/gl3w.h"
+#include "gl3w.h"
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
