@@ -5,32 +5,23 @@
 
 # Building the Code
 
-The project uses a git submodule for its ImGUI dependency, which needs to be initialized with the command:
-```
-git submodule update --init --recursive
-```
-
-Until a proper CMake build system is implemented, building can only be done on Windows with MSYS2 or Linux.
+This project uses [CMake](https://cmake.org/) for build file automation. Currently, building is only tested against Linux with the GNU C++ tools and Windows with Microsoft Visual Studio 2019.
 
 ## Linux
-You need to install the SDL2 package using your distro's package manager. For example, on Ubuntu and Debian:
+You need to install the SDL2 and cmake packages using your distro's package manager. For example, on Ubuntu and Debian:
+```console
+doohl@pc:~/Cosmic-Explorer$ apt install libsdl2-dev cmake
 ```
-apt-get install libsdl2-dev
+Use cmake to generate a makefile and compile. Example:
 ```
-Then:
-```
-make
+doohl@pc:~/Cosmic-Explorer$ mkdir build && cd build
+doohl@pc:~/Cosmic-Explorer/build$ cmake ..
+...
+doohl@pc:~/Cosmic-Explorer/build$ make
 ```
 
 ## Windows
-Currently, the project is only configured to work with MSYS2, with the MinGW64 compiler. To install SDL2:
-```
-pacman -S mingw-w64-x86_64-SDL2
-```
-Then:
-```
-mingw32-make
-```
+Currently, the project is configured to work with MSVC 2019. You must have SDL2 installed on your machine. You may simply open the repository with Visual Studio 2019 and run automated cmake generation, then set the topmost `CMakeLists.txt` as build target.
 
 # Unit Testing
 
@@ -38,4 +29,3 @@ Unit tests are by default compiled alongside the source code into the main binar
 ```
 ./bin/CosmicExplorer --exit
 ```
-
