@@ -10,8 +10,9 @@ addons:
   apt:
     packages:
       - libsdl2-dev
+	  - cmake
 script:
-  - make && ./bin/CosmicExplorer --exit
+  - mkdir build && cd build && cmake --build .. && ./bin/CosmicExplorer --exit
 env:
   global:
     - LANG="en_US.UTF-8"

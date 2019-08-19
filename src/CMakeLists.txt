@@ -24,8 +24,7 @@ if(MSVC)
 			doctest
 			nlohmann_json
 		PUBLIC
-			SDL2.lib
-			SDL2main.lib
+			${SDL2_LIBRARIES}
 			opengl32.lib
 	)
 else()
@@ -38,6 +37,7 @@ else()
 		PUBLIC
 			-lGL
 			-ldl
+			${SDL2_LIBRARIES}
 	)
 endif()
 target_include_directories(CosmicExplorer PUBLIC ${SDL2_INCLUDE_DIR})
