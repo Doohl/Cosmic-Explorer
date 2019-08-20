@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.5)
 
-add_library(imgui
+project(imgui)
+
+add_library(${PROJECT_NAME}
 	imgui.cpp
 	imgui_demo.cpp
 	imgui_draw.cpp
@@ -8,6 +10,13 @@ add_library(imgui
 	imgui_impl_sdl.cpp
 	imgui_impl_opengl3.cpp
 )
-
-target_include_directories(imgui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${SDL2_INCLUDE_DIR})
-target_link_libraries(imgui PRIVATE gl3w)
+target_include_directories(${PROJECT_NAME} 
+	PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} 
+	PRIVATE ${SDL2_INCLUDE_DIR}
+)
+target_link_libraries(${PROJECT_NAME}
+	PRIVATE 
+		${SDL2_LIBRARIES}
+	PUBLIC
+		gl3w
+)

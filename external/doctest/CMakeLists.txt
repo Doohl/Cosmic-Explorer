@@ -1,4 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-add_library(doctest INTERFACE)
-target_include_directories(doctest INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+project(doctest)
+
+add_library(${PROJECT_NAME} doctest.cpp)
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

@@ -7,10 +7,13 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
-            },
-            "problemMatcher": "$gcc",
+			},
+			"options": {
+				"cwd": "${workspaceFolder}/build"
+			},
+			"problemMatcher": "$gcc",
             "windows": {
-                "command": "mingw32-make"
+                "command": "cmake .. && mingw32-make"
             },
             "linux": {
                 "command": "bash"
@@ -22,7 +25,10 @@
             "group": {
 				"kind": "test",
 				"isDefault": true
-            },
+			},
+			"options": {
+				"cwd": "${workspaceFolder}/build"
+			},
             "problemMatcher": "$gcc",
             "windows": {
                 "command": "mingw32-make && ./bin/CosmicExplorer.exe --exit"
@@ -32,33 +38,27 @@
             },
         },
         {
-            "label": "build & run",
-            "type": "shell",
-            "group": "build",
-            "problemMatcher": "$gcc",
-            "windows": {
-                "command": "mingw32-make run"
-            },
-            "linux": {
-                "command": "bash"
-            }
-        },
-        {
             "label": "clean",
-            "type": "shell",
+			"type": "shell",
+			"options": {
+				"cwd": "${workspaceFolder}/build"
+			},
             "windows": {
                 "command": "mingw32-make clean"
-            },
+			},
             "linux": {
                 "command": "bash"
             }
         },
         {
             "label": "run",
-            "type": "shell",
+			"type": "shell",
+			"options": {
+				"cwd": "${workspaceFolder}/build"
+			},
             "windows": {
                 "command": "./bin/CosmicExplorer.exe"
-            },
+			},
             "linux": {
                 "command": "bash"
             }

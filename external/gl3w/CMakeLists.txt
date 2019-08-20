@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-add_library(gl3w gl3w.c)
+project(gl3w)
 
-target_include_directories(gl3w PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+add_library(${PROJECT_NAME} gl3w.c)
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

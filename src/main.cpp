@@ -9,20 +9,19 @@
 #include "imgui_impl_opengl3.h"
 #include "logic_manager.h"
 
-#define DOCTEST_CONFIG_IMPLEMENT
-#include "doctest.h"
+// #include "doctest.h"
 
 int main(int argc, char** argv) {
-	int res = 0;
-	doctest::Context ctx;
-	ctx.setOption("abort-after", 5);
-	ctx.setOption("no-breaks", true);
-	ctx.setOption("order-by", "file");
-	ctx.applyCommandLine(argc, argv);
+	// int res = 0;
+	// doctest::Context ctx;
+	// ctx.setOption("abort-after", 5);
+	// ctx.setOption("no-breaks", true);
+	// ctx.setOption("order-by", "file");
+	// ctx.applyCommandLine(argc, argv);
 
-	res = ctx.run();
-	if(ctx.shouldExit())
-		return res;
+	// res = ctx.run();
+	// if(ctx.shouldExit())
+	// 	return res;
 
 	// Setup SDL
 	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
@@ -102,5 +101,5 @@ int main(int argc, char** argv) {
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 
-	return res;
+	return 0;
 }
