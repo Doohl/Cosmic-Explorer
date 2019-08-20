@@ -47,9 +47,9 @@ $ mingw32-make
 ```
 
 # Unit Testing
-
 Unit tests use [doctest](https://github.com/onqtam/doctest). To run, you may do:
 ```console
+$ make install
 $ cd bin
 $ ./tests
 ```
