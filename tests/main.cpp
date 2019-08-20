@@ -12,5 +12,5 @@ int main(int argc, char* argv[]) {
 	if(ctx.shouldExit())
 		return res;
 	
-	return 0;
+	return res;
 }
