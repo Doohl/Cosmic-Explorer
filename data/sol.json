@@ -1,14 +1,14 @@
 {
-	"name": "Sol",
-    "stellarClass": "G",
-    "colorIndex": 0.656,
-    "absoluteMagnitude": 4.85,
-    "mass": 1.98855e+30,
-    "radius": 695700,
-    "temperature": 5778,
-    "luminosity": 1,
-    "age": 4.6,
-    "children": [
+  "name": "Sol",
+  "stellarClass": "G",
+  "colorIndex": 0.656,
+  "absoluteMagnitude": 4.85,
+  "mass": 1.98855e+30,
+  "radius": 695700,
+  "temperature": 5778,
+  "luminosity": 1,
+  "age": 4.6,
+  "children": [
 	{
 		"name": "Mercury"
 	},
@@ -32,7 +32,7 @@
 		{
 			"name": "Luna",
 			"radius": 1737.1,
-        	"mass": 7.342e+22,
+      "mass": 7.342e+22,
 			"tilt": 1.5424,
 			"orbit": {
 				"semimajorAxis": 384399,

@@ -9,20 +9,67 @@
 
 using json = nlohmann::json;
 
+namespace DummyData {
+
+	// A simple dummy solar system
+	auto Sol = R"(
+	{
+	  "name": "Sol",
+	  "mass": 1.98855e+30,
+	  "radius": 695700,
+	  "children": [
+		{
+			"name": "Mercury"
+		},
+		{
+			"name": "Venus"
+		},
+		{
+			"name": "Earth",
+			"radius": 6371.0,
+			"mass": 5.97237e+24,
+			"orbit": {
+				"semimajorAxis": 149598023,
+				"eccentricity": 0.0167086,
+				"epochTime": 0,
+				"epochAnomaly": 6.259047404,
+				"lAscending": -0.196535244,
+				"aPeriapsis": 1.99330266505
+			},
+			"children": [
+			{
+				"name": "Luna",
+				"radius": 1737.1,
+				"mass": 7.342e+22,
+				"orbit": {
+					"semimajorAxis": 384399,
+					"eccentricity": 0.0549,
+					"epochTime": 0,
+					"epochAnomaly": 2.214976985708,
+					"lAscending": 2.18305783,
+					"aPeriapsis": 5.55276502
+				}
+			}
+			]
+		},
+		{
+			"name": "Mars"
+		}
+		]
+	}
+)"_json;
+}
+
 TEST_SUITE("KeplerOrbit") {
 
 	/**
 	 * 	Test to see if the planet Earth (using orbital parameters mostly taken from Wikipedia) can be simulated using KeplerOrbit logic
 	 */
 	TEST_CASE("Earth can be properly simulated using KeplerOrbit logic") {
-		std::ifstream i("sol.json");
-		json sol;
-		i >> sol;
-
-		double solarMass = sol["mass"]; // solar mass in kg
+		double solarMass = DummyData::Sol["mass"]; // solar mass in kg
 		Vec2 solarPosition = {0, 0};
 
-		json earth = sol["children"][2];
+		json earth = DummyData::Sol["children"][2];
 		double earthMass = earth["mass"]; // earth mass in kg
 		double standardGravTotal = (solarMass * Util::GRAV) + (earthMass * Util::GRAV);
 		KeplerOrbit earthOrbit(earth["orbit"]["semimajorAxis"], earth["orbit"]["eccentricity"], earth["orbit"]["epochTime"], earth["orbit"]["epochAnomaly"], earth["orbit"]["lAscending"], earth["orbit"]["aPeriapsis"], standardGravTotal, true);
@@ -73,14 +120,10 @@ TEST_SUITE("KeplerOrbit") {
 	 * 	Test to see if the Moon can be simulated using KeplerOrbit logic
 	 */
 	TEST_CASE("The Moon can be properly simulated using KeplerOrbit logic") {
-		std::ifstream i("sol.json");
-		json sol;
-		i >> sol;
-
-		double solarMass = sol["mass"]; // solar mass in kg
+		double solarMass = DummyData::Sol["mass"]; // solar mass in kg
 		Vec2 solarPosition = {0, 0};
 
-		json earth = sol["children"][2];
+		json earth = DummyData::Sol["children"][2];
 		double earthMass = earth["mass"]; // earth mass in kg
 		double standardGravTotal = (solarMass * Util::GRAV) + (earthMass * Util::GRAV);
 		KeplerOrbit earthOrbit(earth["orbit"]["semimajorAxis"], earth["orbit"]["eccentricity"], earth["orbit"]["epochTime"], earth["orbit"]["epochAnomaly"], earth["orbit"]["lAscending"], earth["orbit"]["aPeriapsis"], standardGravTotal, true);
