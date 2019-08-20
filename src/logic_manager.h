@@ -29,6 +29,10 @@ public:
 
 	// Get the number of entities in the game
 	size_t getEntityCount() const;
+	// Get the current universe clock
+	universeTime getUniverseClock() const {
+		return universeClock;
+	}
 
 	// Advance time by a given increment (in seconds since the J2000 Epoch)
 	void clockForward(universeTime timeIncrement);

@@ -6,6 +6,7 @@ add_library(${PROJECT_NAME}
 	entity.cpp
 	kepler_orbit.cpp
 	logic_manager.cpp
+	ui_manager.cpp
 	vec2.cpp
 )
 

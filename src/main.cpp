@@ -8,21 +8,9 @@
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
 #include "logic_manager.h"
+#include "ui_manager.h"
 
-// #include "doctest.h"
-
-int main(int argc, char** argv) {
-	// int res = 0;
-	// doctest::Context ctx;
-	// ctx.setOption("abort-after", 5);
-	// ctx.setOption("no-breaks", true);
-	// ctx.setOption("order-by", "file");
-	// ctx.applyCommandLine(argc, argv);
-
-	// res = ctx.run();
-	// if(ctx.shouldExit())
-	// 	return res;
-
+int main(int, char**) {
 	// Setup SDL
 	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
 		std::cerr << "Error: \n" << SDL_GetError();
@@ -62,9 +50,10 @@ int main(int argc, char** argv) {
 
 	// bool show_demo_window = true;
     // bool show_another_window = false;
-    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+    ImVec4 clear_color = ImVec4(0.05f, 0.10f, 0.25f, 1.00f);
 
 	LogicManager logic;
+	UIManager uiManager(window);
 
 	bool done = false;
 	while(!done) {
@@ -80,6 +69,8 @@ int main(int argc, char** argv) {
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplSDL2_NewFrame(window);
 		ImGui::NewFrame();
+
+		uiManager.render(logic);
 
 		// if(show_demo_window)
 			// ImGui::ShowDemoWindow(&show_demo_window);
