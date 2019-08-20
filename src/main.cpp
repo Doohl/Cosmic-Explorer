@@ -55,6 +55,8 @@ int main(int, char**) {
 	LogicManager logic;
 	UIManager uiManager(window);
 
+	logic.initializeSol();
+
 	bool done = false;
 	while(!done) {
 		SDL_Event event;

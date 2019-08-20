@@ -6,6 +6,7 @@
 
 #include "typedefs.h"
 #include "entity.h"
+#include "json.hpp"
 
 class LogicManager {
 public:
@@ -39,6 +40,12 @@ public:
 
 	// Set the universe clock to a new point in time (in seconds since the J2000 Epoch)
 	void clockSet(universeTime newTime);
+
+	// Load up the SOL json from file, feed it to initializeSystem()
+	void initializeSol();
+
+	// Initialize an arbitrary system (read it from JSON)
+	void initializeSystem(nlohmann::json system);
 
 private:
 	// When an entity is created, use this number as its ID then increment it +1

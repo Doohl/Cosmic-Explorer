@@ -1,6 +1,9 @@
 #include "logic_manager.h"
 
 #include <algorithm>
+#include <fstream>
+
+using json = nlohmann::json;
 
 Entity* LogicManager::newEntity(EntityType type, std::string name) {
 	std::unique_ptr<Entity>& entity = entities.emplace_back(new Entity(type, name));
@@ -69,4 +72,56 @@ void LogicManager::clockForward(universeTime increment) {
 
 void LogicManager::clockSet(universeTime newTime) {
 	clockForward(newTime - universeClock);
+}
+
+void LogicManager::initializeSol() {
+	std::ifstream i("sol.json");
+	json sol;
+	i >> sol;
+	
+	initializeSystem(sol);
+}
+
+void LogicManager::initializeSystem(json system) {
+
+	// Process a single stage in the JSON object tree, then propagate down the tree
+	std::function<Entity*(const json& object, const Entity* parent)> loadEntity = [this, &loadEntity](const json& object, const Entity* parent) -> Entity* {
+		EntityType type;
+		if(object.contains("stellarClass")) {
+			type = EntityType::star;
+		} else {
+			type = EntityType::planet; // TODO: proper automated celestial classification
+		}
+		Entity* celestial = newEntity(type, object["name"]);
+
+		if(object.contains("mass")) {
+			double minRadius = 2;
+			switch(type) {
+				case EntityType::star:
+					minRadius = 6;
+					break;
+			}
+			PhysicalProperties* physicalProps = celestial->setPhysicalProperties(object["radius"], minRadius, object["mass"]);
+
+			if(object.contains("orbit") && parent != nullptr) {
+				json orbit = object["orbit"];
+				double standardGravTotal = physicalProps->standardGrav + parent->getPhysicalProperties()->standardGrav;
+				celestial->setOrbitalProperties(orbit["semimajorAxis"], orbit["eccentricity"], orbit["epochTime"],
+					orbit["epochAnomaly"], orbit["lAscending"], orbit["aPeriapsis"],
+					standardGravTotal, orbit.contains("retrograde") ? false : true);
+			}
+			celestial->setPosition(0, 0);
+		}
+		if(object.contains("children")) {
+			json children = object["children"];
+			for(auto iter = children.begin(); iter != children.end(); iter++) {
+				Entity* childEntity = loadEntity(*iter, celestial);
+				celestial->addChildEntity(childEntity);
+			}
+		}
+
+		return celestial;
+	};
+
+	loadEntity(system, nullptr);
 }

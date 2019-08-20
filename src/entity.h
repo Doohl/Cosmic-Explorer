@@ -39,19 +39,25 @@ enum EntityModifier {
 };
 
 // Some physical properties
-class PhysicalProperties {
-public:
-	double radius = 0;
-	double minRadius = 0;
-	double mass = 0;
-};
+struct PhysicalProperties {
+	PhysicalProperties(double _radius, double _minRadius, double _mass)
+		: radius(_radius), minRadius(_minRadius),
+		mass(_mass)
+	{
+		standardGrav = mass * Util::GRAV;
+	}
 
+	double radius = 0.0;
+	double minRadius = 0.0;
+	double mass = 0;
+
+	double standardGrav;
+};
 
 class Entity {
 public:
 	Entity()
-		: position(),
-		physicalProperties(),
+		: position(nullptr),
 		id(0),
 		name("unknown"),
 		type(EntityType::unknown),
@@ -59,22 +65,22 @@ public:
 		orbitalProperties(nullptr)
 	{}
 	Entity(EntityType initType, std::string initName)
-		: position(),
-		physicalProperties(),
+		: position(nullptr),
 		id(0),
 		name(initName),
 		type(initType),
 		parentEntity(nullptr),
-		orbitalProperties(nullptr)
+		orbitalProperties(nullptr),
+		physicalProperties(nullptr)
 	{}
 	Entity(EntityType initType)
-		: position(),
-		physicalProperties(),
+		: position(nullptr),
 		id(0),
 		name("unknown"),
 		type(initType),
 		parentEntity(nullptr),
-		orbitalProperties(nullptr)
+		orbitalProperties(nullptr),
+		physicalProperties(nullptr)
 	{}
 	~Entity(){
 	}
@@ -116,6 +122,9 @@ public:
 	KeplerOrbit* setOrbitalProperties(double _semimajorAxis, double _eccentricity, universeTime _epochTime,
 		double _epochAnomaly, double _lAscending, double _aPeriapsis, double _standardGravTotal,
 		bool _clockwise);
+
+	// Define a set of physical properties
+	PhysicalProperties* setPhysicalProperties(double _radius, double _minRadius, double _mass);
 	
 	// Define a parent entity
 	Entity* setParentEntity(Entity* parent);
@@ -127,9 +136,6 @@ public:
 
 	// Entity's current position on 2D grid
 	std::unique_ptr<Vec2> position;
-
-	// Entity's associated physical properties (used primarily for rendering)
-	std::unique_ptr<PhysicalProperties> physicalProperties;
 
 private:
 	// Unique ID assigned to this entity upon creation
@@ -150,4 +156,7 @@ private:
 
 	// A container for orbital properties and logic
 	std::unique_ptr<KeplerOrbit> orbitalProperties;
+
+	// Entity's associated physical properties (used primarily for rendering)
+	std::unique_ptr<PhysicalProperties> physicalProperties;
 };

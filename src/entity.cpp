@@ -23,6 +23,11 @@ KeplerOrbit* Entity::setOrbitalProperties(double _semimajorAxis, double _eccentr
 	return orbitalProperties.get();
 }
 
+PhysicalProperties* Entity::setPhysicalProperties(double _radius, double _minRadius, double _mass) {
+	physicalProperties = std::make_unique<PhysicalProperties>(_radius, _minRadius, _mass);
+	return physicalProperties.get();
+}
+
 Entity* Entity::setParentEntity(Entity* parent) {
 	parentEntity = parent;
 	return parent;
