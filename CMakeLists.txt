@@ -34,4 +34,4 @@ target_link_libraries(${PROJECT_NAME}
 		src
 )
 
-# add_subdirectory(data)
+add_subdirectory(data)

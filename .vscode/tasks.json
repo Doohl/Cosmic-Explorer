@@ -31,7 +31,7 @@
 			},
             "problemMatcher": "$gcc",
             "windows": {
-                "command": "mingw32-make && ./bin/CosmicExplorer.exe --exit"
+                "command": "mingw32-make tests && cd bin && ./tests.exe"
             },
             "linux": {
                 "command": "bash"

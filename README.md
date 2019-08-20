@@ -20,6 +20,10 @@ $ cmake ..
 ```console
 $ make
 ```
+OR:
+```console
+$ cmake --build .
+```
 
 ## Windows
 
@@ -44,7 +48,12 @@ $ mingw32-make
 
 # Unit Testing
 
-Unit tests are by default compiled alongside the source code into the main binary. To run all the unit tests without running the rest of the software:
+Unit tests use [doctest](https://github.com/onqtam/doctest). To run, you may do:
 ```console
-$ ./bin/CosmicExplorer --exit
+$ cd bin
+$ ./tests
+```
+OR, through CTests:
+```
+$ make test
 ```

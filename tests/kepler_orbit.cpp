@@ -13,7 +13,7 @@ using json = nlohmann::json;
  * 	Test to see if the planet Earth (using orbital parameters mostly taken from Wikipedia) can be simulated using KeplerOrbit logic
  */
 TEST_CASE("Earth can be properly simulated using KeplerOrbit logic") {
-	std::ifstream i("data/sol.json");
+	std::ifstream i("sol.json");
 	json sol;
 	i >> sol;
 
@@ -71,7 +71,7 @@ TEST_CASE("Earth can be properly simulated using KeplerOrbit logic") {
  * 	Test to see if the Moon can be simulated using KeplerOrbit logic
  */
 TEST_CASE("The Moon can be properly simulated using KeplerOrbit logic") {
-	std::ifstream i("data/sol.json");
+	std::ifstream i("sol.json");
 	json sol;
 	i >> sol;
 

@@ -12,7 +12,7 @@ addons:
       - libsdl2-dev
       - cmake
 script:
-  - mkdir build && cd build && cmake .. && make && ./bin/CosmicExplorer --exit
+  - mkdir build && cd build && cmake .. && make && cd bin && ./tests
 env:
   global:
     - LANG="en_US.UTF-8"

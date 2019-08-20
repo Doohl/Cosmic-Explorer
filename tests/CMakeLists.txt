@@ -16,3 +16,5 @@ target_link_libraries(${PROJECT_NAME}
 		doctest
 		src
 )
+
+add_test(NAME cosmictests COMMAND tests)
