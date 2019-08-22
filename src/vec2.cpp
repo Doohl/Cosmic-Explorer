@@ -26,3 +26,7 @@ void Vec2::set(const Vec2& vec) {
 	x = vec.x;
 	y = vec.y;
 }
+
+std::ostream& operator<<(std::ostream& out, const Vec2& vec) {
+	return out << "(" << vec.x << ", " << vec.y << ")";
+}

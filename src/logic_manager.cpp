@@ -55,6 +55,13 @@ size_t LogicManager::getEntityCount() const {
 	return entities.size();
 }
 
+std::vector<std::unique_ptr<Entity>>::iterator LogicManager::getEntitiesBegin() {
+	return entities.begin();
+}
+std::vector<std::unique_ptr<Entity>>::iterator LogicManager::getEntitiesEnd() {
+	return entities.end();
+}
+
 void LogicManager::clockForward(universeTime increment) {
 	universeClock += increment;
 
@@ -109,8 +116,12 @@ void LogicManager::initializeSystem(json system) {
 				celestial->setOrbitalProperties(orbit["semimajorAxis"], orbit["eccentricity"], orbit["epochTime"],
 					orbit["epochAnomaly"], orbit["lAscending"], orbit["aPeriapsis"],
 					standardGravTotal, orbit.contains("retrograde") ? false : true);
+				
+				// Set the Celestial's starting position with the current universeClock
+				celestial->setPosition(celestial->getOrbitalProperties()->computeCoordinates(*(parent->position), universeClock));
+			} else {
+				celestial->setPosition(0, 0);
 			}
-			celestial->setPosition(0, 0);
 		}
 		if(object.contains("children")) {
 			json children = object["children"];

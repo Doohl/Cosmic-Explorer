@@ -60,19 +60,25 @@ int main(int, char**) {
 	bool done = false;
 	while(!done) {
 		SDL_Event event;
+
+		int mouseWheeled = 0;
 		while(SDL_PollEvent(&event)) {
 			ImGui_ImplSDL2_ProcessEvent(&event);
 			if(event.type == SDL_QUIT)
 				done = true;
 			if(event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(window))
 				done = true;
+			if(event.type == SDL_MOUSEWHEEL && event.wheel.y > 0)
+				mouseWheeled = 1;
+			if(event.type == SDL_MOUSEWHEEL && event.wheel.y < 0)
+				mouseWheeled = -1;
 		}
 
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplSDL2_NewFrame(window);
 		ImGui::NewFrame();
 
-		uiManager.render(logic);
+		uiManager.render(logic, mouseWheeled);
 
 		// if(show_demo_window)
 			// ImGui::ShowDemoWindow(&show_demo_window);

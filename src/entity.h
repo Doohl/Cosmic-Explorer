@@ -110,11 +110,15 @@ public:
 		return physicalProperties.get();
 	}
 
+	unsigned int getColor() const;
+
 	// Get all entities directly underneath this entity (itself included)
 	std::vector<Entity*> getEntityNetwork();
 	
 	// Set a new (or starting) position
 	Vec2* setPosition(double x, double y);
+	// Set a new (or starting) position
+	Vec2* setPosition(Vec2 vec);
 	// Set an undefined position (to be later set)
 	Vec2* setPosition(); 
 

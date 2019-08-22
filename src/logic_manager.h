@@ -35,6 +35,10 @@ public:
 		return universeClock;
 	}
 
+	// Helper functions to iterate through the vector of entities
+	std::vector<std::unique_ptr<Entity>>::iterator getEntitiesBegin();
+	std::vector<std::unique_ptr<Entity>>::iterator getEntitiesEnd();
+
 	// Advance time by a given increment (in seconds since the J2000 Epoch)
 	void clockForward(universeTime timeIncrement);
 

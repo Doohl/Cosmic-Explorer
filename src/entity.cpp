@@ -1,11 +1,24 @@
 #include "entity.h"
 
+unsigned int Entity::getColor() const {
+	if(type == EntityType::planet) {
+		return 0x98a7d6ff; // have to add 'FF' for the alpha mask at the end!!!
+	} else if(type == EntityType::star) {
+		return 0xfff1e5ff;
+	}
+	return 0x00;
+}
+
 void Entity::setID(entityID newID) {
 	if(id == 0) id = newID;
 }
 
 Vec2* Entity::setPosition(double x, double y) {
 	position = std::make_unique<Vec2>(x, y);
+	return position.get();
+}
+Vec2* Entity::setPosition(Vec2 vec) {
+	position = std::make_unique<Vec2>(vec);
 	return position.get();
 }
 Vec2* Entity::setPosition() {

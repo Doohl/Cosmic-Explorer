@@ -21,6 +21,21 @@ TEST_SUITE("Entity") {
 		CHECK(secondEntity.getName() == "Asteroid");
 	}
 
+	TEST_CASE("Entities can be repositioned") {
+		Entity entity;
+		entity.setPosition(0, 0);
+		CHECK(entity.position->x == 0);
+		CHECK(entity.position->y == 0);
+		
+		entity.setPosition(Vec2(50, 50));
+		CHECK(entity.position->x == 50);
+		CHECK(entity.position->y == 50);
+
+		entity.position->set({ -10, 0 });
+		CHECK(entity.position->x == -10);
+		CHECK(entity.position->y == 0);
+	}
+
 	TEST_CASE("Entities can have parent/children set") {
 		Entity parent;
 		Entity child;

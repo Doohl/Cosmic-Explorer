@@ -7,8 +7,8 @@
 #include "utilities.h"
 
 // Perform a Newton Approximation for Eccentric Anomaly
-double eccentricAnomalyApproximation(const int& maxComputations, double eccentricAnomaly, 
-	const double& meanAnomaly, const double& eccentricity, const double& error);
+double eccentricAnomalyApproximation(int maxComputations, double eccentricAnomaly, 
+	double meanAnomaly, double eccentricity, double error);
 
 class KeplerOrbit {
 public:
@@ -84,7 +84,7 @@ public:
 	Vec2 getCenter(const Vec2& focus) const;
 
 	// Compute the Eccentric Anomaly of the orbit at an input mean anomaly
-	double computeEccentricAnomaly(const double& meanAnomaly) const;
+	double computeEccentricAnomaly(double meanAnomaly) const;
 
 	// Compute the Mean Anomaly at a specified time
 	double computeMeanAnomaly(const universeTime& time) const;

@@ -1,32 +1,103 @@
 #include "ui_manager.h"
 
+#include <algorithm>
+#include <iostream>
+
 #include "imgui.h"
 #include "logic_manager.h"
 
-ImVec2 UIManager::getSDLWindowSize() const {
+Vec2 UIManager::getSDLWindowSize() const {
 	int width;
 	int height;
 	SDL_GetWindowSize(SDLwindow, &width, &height);
-	return {static_cast<float>(width), static_cast<float>(height)};
+	return { static_cast<double>(width), static_cast<double>(height) };
 }
 
-void UIManager::render(const LogicManager& logicState) {
-	// static bool active = true;
-	// ImGui::Begin("Heeelloooo", &active, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_);
-	// ImGui::Text("hm");
-	// ImGui::End();
+void UIManager::render(LogicManager& logicState, int wheelEvent) {
+	renderCosmos(logicState, wheelEvent);
 
-	renderCosmos(logicState);
+	static bool active = true;
+	ImGui::Begin("Something", &active);
+	ImGui::Text("Hello");
+	ImGui::End();
 }
 
-void UIManager::renderCosmos(const LogicManager& logicState) const {
-	static bool cosmosOpen = true;
+void UIManager::setZoom(double newZoom) {
+	cameraZoom = newZoom;
+}
+void UIManager::setZoom(double newZoom, Vec2 anchor) {
+	Vec2 windowSize = getSDLWindowSize();
+	Vec2 windowCenter = { windowSize.x / 2, windowSize.y / 2 };
+
+	Vec2 oldPos = {
+		((cameraPosition.x * cameraZoom) + (anchor.x - windowCenter.x)) / cameraZoom,
+		((cameraPosition.y * cameraZoom) + (anchor.y - windowCenter.y)) / cameraZoom
+	};
+	Vec2 newPos = {
+		((cameraPosition.x * newZoom) + (anchor.x - windowCenter.x)) / newZoom,
+		((cameraPosition.y * newZoom) + (anchor.y - windowCenter.y)) / newZoom
+	};
+	cameraPosition.x += oldPos.x - newPos.x;
+	cameraPosition.y += oldPos.y - newPos.y;
+	cameraZoom = newZoom;
+}
+
+void UIManager::renderCosmos(LogicManager& logicState, int wheelEvent) {
+	static bool toRenderCosmos = true;
+
+	Vec2 windowSize = getSDLWindowSize();
+
 	ImGui::SetNextWindowPos({0, 0});
-	ImGui::SetNextWindowSize(getSDLWindowSize());
-	ImGui::Begin("Cosmos", &cosmosOpen, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBackground);
+	ImGui::SetNextWindowSize(windowSize);
+	ImGui::Begin("Cosmos", &toRenderCosmos, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoSavedSettings | 
+		ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoBackground);
 
+	if(ImGui::IsWindowFocused()) {
+		// Handle scroll wheel
+		{
+			Vec2 anchor = ImGui::GetMousePos();
+			if(wheelEvent > 0) {
+				setZoom(std::min(1.0, cameraZoom * 1.25), anchor);
+			} else if(wheelEvent < 0) {
+				setZoom(cameraZoom / 1.25, anchor);
+			}
+		}
+
+		// Handle mouse movement
+		{
+			if(ImGui::IsMouseDragging(0)) {
+				Vec2 delta = ImGui::GetMouseDragDelta();
+				cameraPosition.x -= delta.x / cameraZoom;
+				cameraPosition.y -= delta.y / cameraZoom;
+				ImGui::ResetMouseDragDelta();
+			}
+		}
+	}
 	ImDrawList* drawList = ImGui::GetWindowDrawList();
-	drawList->AddCircle({500, 200}, 100.0, ImColor(0.5f, 0.5f, 0.5f, 1.0f));
 
+	// Draw entities
+	{
+		Vec2 windowCenter = { windowSize.x / 2, windowSize.y / 2 };
+
+		for(auto iter = logicState.getEntitiesBegin(); iter != logicState.getEntitiesEnd(); iter++) {
+			Entity* entity = iter->get();
+			PhysicalProperties* physicalProps = entity->getPhysicalProperties();
+			Vec2* position = entity->getPosition();
+
+			if(!physicalProps || !position)
+				continue;
+
+			float radius = static_cast<float>(std::max(physicalProps->minRadius, physicalProps->radius * cameraZoom));
+			if(radius <= 0)
+				continue;
+			
+			Vec2 drawPos = {
+				windowCenter.x + (entity->position->x - cameraPosition.x) * cameraZoom,
+				windowCenter.y + (entity->position->y - cameraPosition.y) * cameraZoom
+			};
+
+			drawList->AddCircleFilled(drawPos, radius, entity->getColor(), 100);
+		}
+	}
 	ImGui::End();
 }

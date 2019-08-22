@@ -5,8 +5,8 @@
 #include "entity.h"
 #include "utilities.h"
 
-double eccentricAnomalyApproximation(const int& maxComputations, double eccentricAnomaly, 
-	const double& meanAnomaly, const double& eccentricity, const double& error) {
+double eccentricAnomalyApproximation(int maxComputations, double eccentricAnomaly, 
+	double meanAnomaly, double eccentricity, double error) {
 
 	for(int i = 0; i < maxComputations; i++) {
 		double previous = eccentricAnomaly;
@@ -24,7 +24,7 @@ Vec2 KeplerOrbit::getCenter(const Vec2& focus) const {
 	return rotatePoint(Vec2(x, y), focus, -lPeriapsis);
 }
 
-double KeplerOrbit::computeEccentricAnomaly(const double& meanAnomaly) const {
+double KeplerOrbit::computeEccentricAnomaly(double meanAnomaly) const {
 	// Orbits of e > 0.8 -> initial value of pi used
 	if(eccentricity > 0.9) {
 		return eccentricAnomalyApproximation(1000, Util::PI, meanAnomaly, eccentricity, 10e-15);

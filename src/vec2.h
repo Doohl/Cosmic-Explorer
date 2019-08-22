@@ -37,3 +37,8 @@ struct Vec4 {
 
 // Return a rotated point along an x and y origin
 Vec2 rotatePoint(Vec2 point, const Vec2& origin, double angle);
+
+
+#include <ostream>
+
+std::ostream& operator<<(std::ostream& out, const Vec2& vec);
