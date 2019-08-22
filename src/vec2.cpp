@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-Vec2 rotatePoint(Vec2 point, const Vec2& origin, const double& angle) {
+Vec2 rotatePoint(Vec2 point, const Vec2& origin, double angle) {
 	double sin = std::sin(angle);
 	double cos = std::cos(angle);
 
@@ -17,7 +17,7 @@ Vec2 rotatePoint(Vec2 point, const Vec2& origin, const double& angle) {
 	return point;
 }
 
-void Vec2::set(const double& _x, const double& _y) {
+void Vec2::set(double _x, double _y) {
 	x = _x;
 	y = _y;
 }

@@ -54,15 +54,17 @@
 
 //---- Define constructor and implicit cast operators to convert back<>forth between your math types and ImVec2/ImVec4.
 // This will be inlined as part of ImVec2 and ImVec4 class declarations.
-/*
+
+#include "../../src/vec2.h" // holy shit this is awful
+
 #define IM_VEC2_CLASS_EXTRA                                                 \
-        ImVec2(const MyVec2& f) { x = f.x; y = f.y; }                       \
-        operator MyVec2() const { return MyVec2(x,y); }
+        ImVec2(const Vec2& f) { x = static_cast<float>(f.x); y = static_cast<float>(f.y); }                       \
+        operator Vec2() const { return Vec2(x,y); }
 
 #define IM_VEC4_CLASS_EXTRA                                                 \
-        ImVec4(const MyVec4& f) { x = f.x; y = f.y; z = f.z; w = f.w; }     \
-        operator MyVec4() const { return MyVec4(x,y,z,w); }
-*/
+        ImVec4(const Vec4& f) { x = static_cast<float>(f.r); y = static_cast<float>(f.g); z = static_cast<float>(f.b); w = static_cast<float>(f.a); }     \
+        operator Vec4() const { return Vec4(x,y,z,w); }
+
 
 //---- Using 32-bits vertex indices (default is 16-bits) is one way to allow large meshes with more than 64K vertices. 
 // Your renderer back-end will need to support it (most example renderer back-ends support both 16/32-bits indices).
