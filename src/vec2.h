@@ -30,6 +30,9 @@ struct Vec4 {
 	Vec4(double _r, double _g, double _b)
 		: r(_r), g(_g), b(_b), a(1.0)
 	{}
+	Vec4(int _r, int _g, int _b)
+		: r(static_cast<double>(_r) / 255.0), g(static_cast<double>(_g) / 255.0), b(static_cast<double>(_b) / 255.0)
+	{}
 	Vec4()
 		: r(0.0), g(0.0), b(0.0), a(1.0)
 	{}

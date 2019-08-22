@@ -1,12 +1,12 @@
 #include "entity.h"
 
-unsigned int Entity::getColor() const {
+Vec4 Entity::getColor() const {
 	if(type == EntityType::planet) {
-		return 0x98a7d6ff; // have to add 'FF' for the alpha mask at the end!!!
+		return {152, 167, 214};
 	} else if(type == EntityType::star) {
-		return 0xfff1e5ff;
+		return {255, 241, 229};
 	}
-	return 0x00;
+	return {0.0, 0.0, 0.0};
 }
 
 void Entity::setID(entityID newID) {

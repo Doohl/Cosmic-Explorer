@@ -110,7 +110,7 @@ public:
 		return physicalProperties.get();
 	}
 
-	unsigned int getColor() const;
+	Vec4 getColor() const;
 
 	// Get all entities directly underneath this entity (itself included)
 	std::vector<Entity*> getEntityNetwork();

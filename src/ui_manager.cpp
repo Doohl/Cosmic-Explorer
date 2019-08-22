@@ -96,7 +96,7 @@ void UIManager::renderCosmos(LogicManager& logicState, int wheelEvent) {
 				windowCenter.y + (entity->position->y - cameraPosition.y) * cameraZoom
 			};
 
-			drawList->AddCircleFilled(drawPos, radius, entity->getColor(), 100);
+			drawList->AddCircleFilled(drawPos, radius, ImColor(entity->getColor()), 100);
 		}
 	}
 	ImGui::End();
