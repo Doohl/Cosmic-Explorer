@@ -16,10 +16,8 @@ Vec2 UIManager::getSDLWindowSize() const {
 void UIManager::render(LogicManager& logicState, int wheelEvent) {
 	renderCosmos(logicState, wheelEvent);
 
-	//static bool active = true;
-	ImGui::Begin("Quick Info");
-	ImGui::Text("Framerate: %.1f FPS (%.3f ms/frame)", ImGui::GetIO().Framerate, 1000.0f / ImGui::GetIO().Framerate);
-	ImGui::Text("Camera: (%.3f, %.3f)", cameraPosition.x, cameraPosition.y);
+	ImGui::Begin("Info");
+	ImGui::Text("Camera: (%.3f, %.3f) km", cameraPosition.x, cameraPosition.y);
 	ImGui::Text("Zoom: x%.10f", cameraZoom);
 	ImGui::Text("Universe Time: %.3f s", logicState.getUniverseClock());
 	ImGui::End();
@@ -54,6 +52,8 @@ void UIManager::renderCosmos(LogicManager& logicState, int wheelEvent) {
 	ImGui::SetNextWindowSize(windowSize);
 	ImGui::Begin("Cosmos", &toRenderCosmos, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoSavedSettings | 
 		ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoBackground);
+
+	ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
 
 	if(ImGui::IsWindowFocused()) {
 		// Handle scroll wheel
@@ -128,6 +128,10 @@ void UIManager::renderCosmos(LogicManager& logicState, int wheelEvent) {
 			};
 
 			drawList->AddCircleFilled(drawPos, radius, ImColor(entity->getColor()), 100);
+			if(radius > 2 || cameraZoom >= 0.0001 || entity->getType() == EntityType::star) {
+				std::string name = entity->getName();
+				drawList->AddText(Vec2(drawPos.x - name.size() * 3.5, drawPos.y + radius + 2), ImColor(entity->getColor()), name.data());
+			}
 		}
 	}
 	ImGui::End();
