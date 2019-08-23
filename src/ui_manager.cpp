@@ -100,13 +100,10 @@ void UIManager::renderCosmos(LogicManager& logicState, int wheelEvent) {
 			if(orbitAlpha >= 0.99f)
 				orbitAlpha = 1.0f;
 
-			//float orbitAlpha = 1.0f;
-
 			if(orbitAlpha > 0.0f) {
-				drawList->PathEllipticalArcTo(drawCenter, static_cast<float>(orbitalProps->getSemimajorAxis() * cameraZoom),
+				drawList->AddEllipse(drawCenter, static_cast<float>(orbitalProps->getSemimajorAxis() * cameraZoom),
 					static_cast<float>(orbitalProps->getSemiminorAxis() * cameraZoom),
-					static_cast<float>(-orbitalProps->getLPeriapsis()), 0.0f, 2.0f * Util::PIf * 0.99f, 100);
-				drawList->PathStroke(ImColor({ 113.0f / 255.0f, 117.0f / 255.0f, 130.0f / 255.0f, orbitAlpha}), true);
+					ImColor({ 113.0f / 255.0f, 117.0f / 255.0f, 130.0f / 255.0f, orbitAlpha }), static_cast<float>(-orbitalProps->getLPeriapsis()), 100);
 			}
 		}
 	}
