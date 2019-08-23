@@ -1,5 +1,11 @@
 {
 	"cSpell.enabled": false,
+	"terminal.integrated.shell.windows": "cmd.exe",
+	"terminal.integrated.shellArgs.windows": [
+		"/k",
+		"C:\\Program^ Files^ ^(x86^)\\Microsoft^ Visual^ Studio\\2019\\Community\\Common7\\Tools\\VsDevCmd.bat"
+	],
+	// "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
 	"files.associations": {
 		"array": "cpp",
 		"bit": "cpp",

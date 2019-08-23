@@ -1,5 +1,15 @@
 {
-    "version": "2.0.0",
+	"version": "2.0.0",
+	"options": {
+		"shell": {
+			"executable": "cmd.exe",
+			"args": [
+				"/d", "/c",
+				"C:\\Program^ Files^ ^(x86^)\\Microsoft^ Visual^ Studio\\2019\\Community\\Common7\\Tools\\VsDevCmd.bat",
+				"&&"
+			]
+		}
+	},
     "tasks": [
         {
             "label": "build",
@@ -11,12 +21,12 @@
 			"options": {
 				"cwd": "${workspaceFolder}/build"
 			},
-			"problemMatcher": "$gcc",
+			"problemMatcher": "$msCompile",
             "windows": {
-                "command": "cmake .. && mingw32-make"
+				"command": "cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=\"cl.exe\" -DCMAKE_CXX_COMPILER=\"cl.exe\" .. && ninja"
             },
             "linux": {
-                "command": "bash"
+                "command": "cmake .. && make"
             },
 		},
 		{
