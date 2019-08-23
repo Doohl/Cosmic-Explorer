@@ -5,7 +5,7 @@
 
 # Building the Code
 
-This project uses [CMake](https://cmake.org/) for build file automation. Building is currently only tested against Linux and Windows.
+This project uses [CMake](https://cmake.org/) for build file generation. Building is currently only tested against Linux and Windows.
 
 ## Linux
 You need to install the SDL2 and cmake packages using your distro's package manager. For example, on Ubuntu and Debian:
@@ -28,7 +28,21 @@ $ cmake --build .
 ## Windows
 
 ### Visual Studio 2019
-You must have SDL2 installed in Visual Studio's default lib, include, bin directories. You may simply open the repository with Visual Studio 2019 and run automated cmake generation, then set the topmost `CMakeLists.txt` as build target.
+You must have SDL2 installed in Visual Studio's default lib, include, bin directories (or anywhere that the `cmake/FindSDL2.cmake` script is able to find it in). You may simply open the repository with Visual Studio 2019 and run automated cmake generation, then set the root `CMakeLists.txt` as build target.
+
+Optionally, you may use the "Developer Command Prompt for VS 2019" shortcut to generate and compile in the command-line:
+```console
+mkdir build
+cd build
+cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=cl.exe -DCMAKE_CXX_COMPILER=cl.exe ..
+```
+
+Building:
+```console
+ninja
+```
+
+The pre-packaged VS Code settings demonstrate a working commandline configure-and-build setup. 
 
 ### MSYS / MinGW32
 Instructions similar to Linux, with the exception that you will want to override the cmake default build system:
@@ -54,6 +68,6 @@ $ cd bin
 $ ./tests
 ```
 OR, through CTests:
-```
+```console
 $ make test
 ```
