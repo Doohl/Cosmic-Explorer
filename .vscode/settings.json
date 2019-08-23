@@ -5,6 +5,7 @@
 		"/k",
 		"C:\\Program^ Files^ ^(x86^)\\Microsoft^ Visual^ Studio\\2019\\Community\\Common7\\Tools\\VsDevCmd.bat"
 	],
+	"terminal.integrated.cwd": "${workspaceFolder}/build",
 	// "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
 	"files.associations": {
 		"array": "cpp",

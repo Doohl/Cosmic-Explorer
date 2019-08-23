@@ -11,67 +11,67 @@
 		}
 	},
     "tasks": [
-        {
-            "label": "build",
-            "type": "shell",
-            "group": {
-                "kind": "build",
-                "isDefault": true
+		{
+			"label": "build",
+			"type": "shell",
+			"group": {
+				"kind": "build",
+				"isDefault": true
 			},
 			"options": {
 				"cwd": "${workspaceFolder}/build"
 			},
 			"problemMatcher": "$msCompile",
-            "windows": {
+			"windows": {
 				"command": "cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=\"cl.exe\" -DCMAKE_CXX_COMPILER=\"cl.exe\" .. && ninja"
-            },
-            "linux": {
-                "command": "cmake .. && make"
-            },
+			},
+			"linux": {
+				"command": "cmake .. && make"
+			}
 		},
 		{
-            "label": "build & run tests",
+			"label": "build & run tests",
 			"type": "shell",
-            "group": {
+			"group": {
 				"kind": "test",
 				"isDefault": true
 			},
 			"options": {
 				"cwd": "${workspaceFolder}/build"
 			},
-            "problemMatcher": "$gcc",
-            "windows": {
-                "command": "mingw32-make tests && cd bin && ./tests.exe"
-            },
-            "linux": {
-                "command": "bash"
-            },
-        },
-        {
-            "label": "clean",
+			"problemMatcher": "$gcc",
+			"windows": {
+				"command": "mingw32-make tests && cd bin && ./tests.exe"
+			},
+			"linux": {
+				"command": "bash"
+			}
+		},
+		{
+			"label": "clean",
 			"type": "shell",
 			"options": {
 				"cwd": "${workspaceFolder}/build"
 			},
-            "windows": {
-                "command": "mingw32-make clean"
+			"windows": {
+				"command": "mingw32-make clean"
 			},
-            "linux": {
-                "command": "bash"
-            }
-        },
-        {
-            "label": "run",
+			"linux": {
+				"command": "bash"
+			}
+		},
+		{
+			"label": "run",
 			"type": "shell",
 			"options": {
 				"cwd": "${workspaceFolder}/build"
 			},
-            "windows": {
-                "command": "./bin/CosmicExplorer.exe"
+			"windows": {
+				"command": "./bin/CosmicExplorer.exe"
 			},
-            "linux": {
-                "command": "bash"
-            }
-        }
-    ]
+			"linux": {
+				"command": "bash"
+			}
+		}
+	]
 }
