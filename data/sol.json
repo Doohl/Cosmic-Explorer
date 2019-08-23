@@ -9,44 +9,55 @@
   "luminosity": 1,
   "age": 4.6,
   "children": [
-	{
-		"name": "Mercury"
-	},
-	{
-		"name": "Venus"
-	},
-	{
-		"name": "Earth",
-		"radius": 6371.0,
-		"mass": 5.97237e+24,
-		"tilt": 23.4392811,
-		"orbit": {
-			"semimajorAxis": 149598023,
-			"eccentricity": 0.0167086,
-			"epochTime": 0,
-			"epochAnomaly": 6.259047404,
-			"lAscending": -0.196535244,
-			"aPeriapsis": 1.99330266505
-		},
-		"children": [
-		{
-			"name": "Luna",
-			"radius": 1737.1,
-      "mass": 7.342e+22,
-			"tilt": 1.5424,
-			"orbit": {
-				"semimajorAxis": 384399,
-				"eccentricity": 0.0549,
-				"epochTime": 0,
-				"epochAnomaly": 2.214976985708,
-				"lAscending": 2.18305783,
-				"aPeriapsis": 5.55276502
-			}
-		}
-		]
-	},
-	{
-		"name": "Mars"
-	}
-	]
+    {
+      "name": "Mercury",
+      "radius": 2439.7,
+      "mass": 3.3011e+23,
+      "tilt": 0.034,
+      "orbit": {
+        "semimajorAxis": 57909050,
+        "eccentricity": 0.205630,
+        "epochTime": 0,
+        "epochAnomaly": 3.050765719,
+        "lAscending": 0.843535081,
+        "aPeriapsis": 0.508309691
+      }
+    },
+    {
+      "name": "Venus"
+    },
+    {
+      "name": "Earth",
+      "radius": 6371.0,
+      "mass": 5.97237e+24,
+      "tilt": 23.4392811,
+      "orbit": {
+        "semimajorAxis": 149598023,
+        "eccentricity": 0.0167086,
+        "epochTime": 0,
+        "epochAnomaly": 6.259047404,
+        "lAscending": -0.196535244,
+        "aPeriapsis": 1.99330266505
+      },
+      "children": [
+        {
+          "name": "Luna",
+          "radius": 1737.1,
+          "mass": 7.342e+22,
+          "tilt": 1.5424,
+          "orbit": {
+            "semimajorAxis": 384399,
+            "eccentricity": 0.0549,
+            "epochTime": 0,
+            "epochAnomaly": 2.214976985708,
+            "lAscending": 2.18305783,
+            "aPeriapsis": 5.55276502
+          }
+        }
+      ]
+    },
+    {
+      "name": "Mars"
+    }
+  ]
 }

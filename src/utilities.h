@@ -3,6 +3,8 @@
 namespace Util {
 	// Approximate PI constant
 	constexpr double PI = 3.14159265358979323846;
+	constexpr float PIf = 3.14159265358979f;
+
 	// Approximate gravitational constant in [m^3 kg^-1 s^-2]
 	constexpr double GRAV = 6.67408e-11;
 	// Conversion factor from AU to km

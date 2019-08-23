@@ -16,9 +16,12 @@ Vec2 UIManager::getSDLWindowSize() const {
 void UIManager::render(LogicManager& logicState, int wheelEvent) {
 	renderCosmos(logicState, wheelEvent);
 
-	static bool active = true;
-	ImGui::Begin("Something", &active);
-	ImGui::Text("Hello");
+	//static bool active = true;
+	ImGui::Begin("Quick Info");
+	ImGui::Text("Framerate: %.1f FPS (%.3f ms/frame)", ImGui::GetIO().Framerate, 1000.0f / ImGui::GetIO().Framerate);
+	ImGui::Text("Camera: (%.3f, %.3f)", cameraPosition.x, cameraPosition.y);
+	ImGui::Text("Zoom: x%.10f", cameraZoom);
+	ImGui::Text("Universe Time: %.3f s", logicState.getUniverseClock());
 	ImGui::End();
 }
 
@@ -74,11 +77,42 @@ void UIManager::renderCosmos(LogicManager& logicState, int wheelEvent) {
 		}
 	}
 	ImDrawList* drawList = ImGui::GetWindowDrawList();
+	Vec2 windowCenter = { windowSize.x / 2, windowSize.y / 2 };
+
+	// Draw orbits
+	{
+		for(auto iter = logicState.getEntitiesBegin(); iter != logicState.getEntitiesEnd(); iter++) {
+			Entity* entity = iter->get();
+			KeplerOrbit* orbitalProps = entity->getOrbitalProperties();
+			Vec2* position = entity->getPosition();
+			Entity* parentEntity = entity->getParentEntity();
+
+			if(!orbitalProps || !position || !parentEntity)
+				continue;
+
+			Vec2 orbitCenter = orbitalProps->getCenter(*parentEntity->getPosition());
+			Vec2 drawCenter = {
+				windowCenter.x + (orbitCenter.x - cameraPosition.x) * cameraZoom,
+				windowCenter.y + (orbitCenter.y - cameraPosition.y) * cameraZoom
+			};
+
+			float orbitAlpha = 1.0f - static_cast<float>(orbitalProps->getSemimajorAxis() * cameraZoom / Util::MAX_ELLIPSE_SEMIMAJOR);
+			if(orbitAlpha >= 0.99f)
+				orbitAlpha = 1.0f;
+
+			//float orbitAlpha = 1.0f;
+
+			if(orbitAlpha > 0.0f) {
+				drawList->PathEllipticalArcTo(drawCenter, static_cast<float>(orbitalProps->getSemimajorAxis() * cameraZoom),
+					static_cast<float>(orbitalProps->getSemiminorAxis() * cameraZoom),
+					static_cast<float>(-orbitalProps->getLPeriapsis()), 0.0f, 2.0f * Util::PIf * 0.99f, 100);
+				drawList->PathStroke(ImColor({ 113.0f / 255.0f, 117.0f / 255.0f, 130.0f / 255.0f, orbitAlpha}), true);
+			}
+		}
+	}
 
 	// Draw entities
 	{
-		Vec2 windowCenter = { windowSize.x / 2, windowSize.y / 2 };
-
 		for(auto iter = logicState.getEntitiesBegin(); iter != logicState.getEntitiesEnd(); iter++) {
 			Entity* entity = iter->get();
 			PhysicalProperties* physicalProps = entity->getPhysicalProperties();
