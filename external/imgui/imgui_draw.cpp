@@ -893,6 +893,23 @@ void ImDrawList::PathArcTo(const ImVec2& centre, float radius, float a_min, floa
     }
 }
 
+void ImDrawList::PathEllipticalArcTo(const ImVec2& center, float radius_x, float radius_y, float rot, float a_min, float a_max, int num_segments)
+{
+	_Path.reserve(_Path.Size + (num_segments + 1));
+	for(int i = 0; i <= num_segments; i++)
+	{
+		const float a = a_min + ((float)i / (float)num_segments) * (a_max - a_min);
+		ImVec2 point(center.x + ImCos(a) * radius_x, center.y + ImSin(a) * radius_y);
+		point.x -= center.x;
+		point.y -= center.y;
+		float rel_x = (point.x * ImCos(rot)) - (point.y * ImSin(rot));
+		float rel_y = (point.x * ImSin(rot)) + (point.y * ImCos(rot));
+		point.x = rel_x + center.x;
+		point.y = rel_y + center.y;
+		_Path.push_back(point);
+	}
+}
+
 static void PathBezierToCasteljau(ImVector<ImVec2>* path, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, float tess_tol, int level)
 {
     float dx = x4 - x1;
