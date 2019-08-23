@@ -20,7 +20,14 @@ void UIManager::render(LogicManager& logicState, int wheelEvent) {
 	ImGui::Text("Camera: (%.3f, %.3f) km", cameraPosition.x, cameraPosition.y);
 	ImGui::Text("Zoom: x%.10f", cameraZoom);
 	ImGui::Text("Universe Time: %.3f s", logicState.getUniverseClock());
+	ImGui::Checkbox("Realtime system simulation", &logicState.universeAdvancing);
+	ImGui::SliderInt("Time multiplier", &logicState.timeScale, 1, 10000000);
 	ImGui::End();
+
+	if(logicState.universeAdvancing) {
+		universeTime timeStep = 1.0 / ImGui::GetIO().Framerate * static_cast<double>(logicState.timeScale);
+		logicState.clockForward(timeStep);
+	}
 }
 
 void UIManager::setZoom(double newZoom) {

@@ -50,6 +50,12 @@ public:
 
 	// Initialize an arbitrary system (read it from JSON)
 	void initializeSystem(nlohmann::json system);
+	
+	// If true, the universe is advancing in realtime
+	bool universeAdvancing = true;
+
+	// The timescale factor for realtime advancement
+	int timeScale = 1;
 
 private:
 	// When an entity is created, use this number as its ID then increment it +1

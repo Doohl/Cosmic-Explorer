@@ -108,6 +108,10 @@ void LogicManager::initializeSystem(json system) {
 					minRadius = 6;
 					break;
 			}
+			if(object.contains("children")) {
+				minRadius = 3;
+			}
+
 			PhysicalProperties* physicalProps = celestial->setPhysicalProperties(object["radius"], minRadius, object["mass"]);
 
 			if(object.contains("orbit") && parent != nullptr) {
