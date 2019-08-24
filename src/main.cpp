@@ -10,7 +10,11 @@
 #include "logic_manager.h"
 #include "ui_manager.h"
 
+#if defined _WIN32 || defined _WIN64
 int SDL_main(int, char**) {
+#else
+int main(int, char**) {
+#endif
 	// Setup SDL
 	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
 		std::cerr << "Error: \n" << SDL_GetError();
