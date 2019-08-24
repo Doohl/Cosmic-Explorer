@@ -25,6 +25,13 @@ public:
 		clockwise(_clockwise),
 		standardGravTotal(_standardGravTotal)
 	{
+		if(semimajorAxis <= 0)
+			throw "Invalid semimajor axis";
+		if(eccentricity < 0 || eccentricity >= 1.0)
+			throw "Eccentricity out of bounds";
+		if(standardGravTotal <= 0)
+			throw "Invalid standard grav total";
+
 		periapsis = semimajorAxis * (1 - eccentricity);
 		apoapsis = semimajorAxis * (1 + eccentricity);
 		semiminorAxis = std::sqrt(periapsis * apoapsis);
