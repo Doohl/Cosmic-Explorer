@@ -11,8 +11,13 @@ addons:
     packages:
       - libsdl2-dev
       - cmake
+	  - ctest
+before_script:
+  - mkdir build
 script:
-  - mkdir build && cd build && cmake .. && make && make install && cd bin && ./tests
+  - cmake ..
+  - make
+  - ctest -j4
 env:
   global:
     - LANG="en_US.UTF-8"

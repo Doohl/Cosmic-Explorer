@@ -63,11 +63,15 @@ $ mingw32-make
 # Unit Testing
 Unit tests use [doctest](https://github.com/onqtam/doctest). To run, you may do:
 ```console
-$ make install
 $ cd bin
-$ ./tests
+$ ./tests/vec2
+$ ./tests/entity
+...
 ```
 OR, through CTests:
 ```console
-$ make test
+$ make test ARGS=-j4
+```
+```console
+$ ctest . j4
 ```
