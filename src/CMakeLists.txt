@@ -17,25 +17,14 @@ target_link_libraries(${PROJECT_NAME}
 		nlohmann_json
 )
 
-if(MSVC)
+if(MSVC OR MSYS OR MINGW)
+	message("Configuring for Windows (MSVC, MSYS, MINGW)")
 	target_link_libraries(${PROJECT_NAME}
 		PUBLIC
 			opengl32.lib
 	)
-elseif(MSYS OR MINGW)
-	target_link_libraries(${PROJECT_NAME}
-		PUBLIC
-			opengl32.lib
-			-static-libgcc
-			-static-libstdc++
-			-lgdi32
-			-limm32
-			-mconsole
-			-mwindows
-			-lmingw32
-	)
-	target_compile_options(${PROJECT_NAME} PRIVATE -g -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic)
 else()
+	message("Configuring for Linux")
 	target_link_libraries(${PROJECT_NAME}
 		PUBLIC
 			-static-libgcc
@@ -43,8 +32,17 @@ else()
 			-lGL
 			-ldl
 	)
-	target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic)
 endif()
+
+# Set compiler warnings here
+target_compile_options(${PROJECT_NAME} PRIVATE
+	$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
+		-Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic
+	>
+	$<$<CXX_COMPILER_ID:MSVC>:
+		/W4
+	>
+)
 
 target_include_directories(${PROJECT_NAME}
 	PUBLIC

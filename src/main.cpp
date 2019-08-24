@@ -10,13 +10,13 @@
 #include "logic_manager.h"
 #include "ui_manager.h"
 
-int main(int, char**) {
+int SDL_main(int, char**) {
 	// Setup SDL
 	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
 		std::cerr << "Error: \n" << SDL_GetError();
 		return -1;
 	}
-
+	
 	const char* glsl_version = "#version 130";
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);

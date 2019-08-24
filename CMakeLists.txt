@@ -25,13 +25,12 @@ add_subdirectory(tests)
 ## 
 ## Build the main executable
 ##
-add_executable(${PROJECT_NAME} src/main.cpp)
+add_executable(${PROJECT_NAME} WIN32 src/main.cpp)
 target_link_libraries(${PROJECT_NAME}
-	PRIVATE
-		${SDL2_LIBRARIES}
 	PUBLIC
 		imgui
 		src
+		${SDL2_LIBRARIES}
 )
 
 add_subdirectory(data)

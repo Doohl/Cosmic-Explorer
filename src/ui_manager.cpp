@@ -110,7 +110,7 @@ void UIManager::renderCosmos(LogicManager& logicState, int wheelEvent) {
 			if(orbitAlpha > 0.0f) {
 				drawList->AddEllipse(drawCenter, static_cast<float>(orbitalProps->getSemimajorAxis() * cameraZoom),
 					static_cast<float>(orbitalProps->getSemiminorAxis() * cameraZoom),
-					ImColor({ 113.0f / 255.0f, 117.0f / 255.0f, 130.0f / 255.0f, orbitAlpha }), static_cast<float>(-orbitalProps->getLPeriapsis()), 100);
+					ImColor(Vec4(113.0f / 255.0f, 117.0f / 255.0f, 130.0f / 255.0f, orbitAlpha )), static_cast<float>(-orbitalProps->getLPeriapsis()), 100);
 			}
 		}
 	}

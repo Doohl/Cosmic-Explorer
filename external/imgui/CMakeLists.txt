@@ -10,9 +10,11 @@ add_library(${PROJECT_NAME}
 	imgui_impl_sdl.cpp
 	imgui_impl_opengl3.cpp
 )
-target_include_directories(${PROJECT_NAME} 
-	PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} 
-	PRIVATE ${SDL2_INCLUDE_DIR}
+target_include_directories(${PROJECT_NAME}
+	PRIVATE 
+		${SDL2_INCLUDE_DIR}
+	PUBLIC 
+		${CMAKE_CURRENT_SOURCE_DIR} 
 )
 target_link_libraries(${PROJECT_NAME}
 	PRIVATE 
