@@ -58,9 +58,6 @@ public:
 	double getAPeriapsis() const {
 		return aPeriapsis;
 	}
-	double getAPrecession() const {
-		return aPrecession;
-	}
 	bool getClockwise() const {
 		return clockwise;
 	}
@@ -114,8 +111,6 @@ private:
 	double lAscending;
 	// Argument of the periapsis (radians)
 	double aPeriapsis;
-	// Apsidal precession in rad
-	double aPrecession;
 	// True if the orbit is travelling clockwise relative to the viewport
 	bool clockwise;
 
