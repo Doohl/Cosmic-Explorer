@@ -105,4 +105,26 @@ TEST_SUITE("KeplerOrbit") {
 		}
 	}
 
+	TEST_CASE("Malformed Kepler Orbits") {
+		SUBCASE("Semimajor axis must be > 0") {
+			CHECK_THROWS_WITH(KeplerOrbit(-100, 0.5, 0.0, 0.0, 0.0, 0.0, 1000.0, false), "Invalid semimajor axis");
+			CHECK_THROWS_WITH(KeplerOrbit(0, 0.5, 0.0, 0.0, 0.0, 0.0, 1000.0, false), "Invalid semimajor axis");
+			CHECK_NOTHROW(KeplerOrbit(100, 0.5, 0.0, 0.0, 0.0, 0.0, 1000.0, false));
+		}
+		
+		SUBCASE("Eccentricity must be within [0, 1)") {
+			CHECK_THROWS_WITH(KeplerOrbit(100.0, 50, 0.0, 0.0, 0.0, 0.0, 1000.0, false), "Eccentricity out of bounds");
+			CHECK_THROWS_WITH(KeplerOrbit(100.0, 1, 0.0, 0.0, 0.0, 0.0, 1000.0, false), "Eccentricity out of bounds");
+			CHECK_THROWS_WITH(KeplerOrbit(100.0, -1, 0.0, 0.0, 0.0, 0.0, 1000.0, false), "Eccentricity out of bounds");
+			CHECK_NOTHROW(KeplerOrbit(100.0, 0, 0.0, 0.0, 0.0, 0.0, 1000.0, false));
+			CHECK_NOTHROW(KeplerOrbit(100.0, 0.5, 0.0, 0.0, 0.0, 0.0, 1000.0, false));
+			CHECK_NOTHROW(KeplerOrbit(100.0, 0.9999, 0.0, 0.0, 0.0, 0.0, 1000.0, false));
+		}
+
+		SUBCASE("Standard grav total must be > 0") {
+			CHECK_THROWS_WITH(KeplerOrbit(100.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0, false), "Invalid standard grav total");
+			CHECK_THROWS_WITH(KeplerOrbit(100.0, 0.5, 0.0, 0.0, 0.0, 0.0, -100.0, false), "Invalid standard grav total");
+			CHECK_NOTHROW(KeplerOrbit(100.0, 0.5, 0.0, 0.0, 0.0, 0.0, 100.0, false));
+		}
+	}
 }
