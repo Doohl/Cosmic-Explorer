@@ -21,9 +21,7 @@ void UIManager::render(LogicManager& logicState, int wheelEvent) {
 	ImGui::Text("Camera: (%.3f, %.3f) km", cameraPosition.x, cameraPosition.y);
 	ImGui::Text("Zoom: x%.10f", cameraZoom);
 	time_t currentTime = logicState.getUniverseTime();
-	char dateStr[26];
-	ctime_s(dateStr, sizeof dateStr, &currentTime);
-	ImGui::Text("Time: %s", &dateStr);
+	ImGui::Text("Time: %s", std::ctime(&currentTime));
 	ImGui::TextColored(Vec4(0.55, 0.55, 0.55, 1.0), "(%f s since J2000)", logicState.getUniverseClock());
 	ImGui::Checkbox("Realtime system simulation", &logicState.universeAdvancing);
 	ImGui::SliderInt("Time multiplier", &logicState.timeScale, 1, 10000000);
