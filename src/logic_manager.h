@@ -8,12 +8,21 @@
 #include "entity.h"
 #include "json.hpp"
 
+universeTime getTimeSinceJ2000();
+
+
 class LogicManager {
 public:
 	LogicManager()
 		: idIncrement(0),
 		viewingSystem("Sol"),
 		universeClock(0)
+	{}
+
+	LogicManager(universeTime startingTime)
+		: idIncrement(0),
+		viewingSystem("Sol"),
+		universeClock(startingTime)
 	{}
 
 	// Create a new entity of a specified type and name
@@ -34,6 +43,10 @@ public:
 	universeTime getUniverseClock() const {
 		return universeClock;
 	}
+	// Get the current time_t
+	time_t getUniverseTime() const {
+		return static_cast<time_t>(universeClock + 946684800);
+	}
 
 	// Helper functions to iterate through the vector of entities
 	std::vector<std::unique_ptr<Entity>>::iterator getEntitiesBegin();
@@ -47,7 +60,7 @@ public:
 
 	// Load up the SOL json from file, feed it to initializeSystem()
 	void initializeSol();
-
+	
 	// Initialize an arbitrary system (read it from JSON)
 	void initializeSystem(nlohmann::json system);
 	
@@ -64,7 +77,7 @@ private:
 	// The name of the solar system client is viewing
 	std::string viewingSystem = "Sol";
 
-	// The current universe clock
+	// The current universe clock (seconds since the J2000 Epoch)
 	universeTime universeClock = 0;
 
 	// A vector of all entities in the game

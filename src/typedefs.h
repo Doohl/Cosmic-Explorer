@@ -3,5 +3,5 @@
 // An unsigned 32-bit integer given to every entity on creation
 typedef unsigned int entityID;
 
-// Seconds relative to the J2000 Epoch
+// Units of time
 typedef double universeTime;

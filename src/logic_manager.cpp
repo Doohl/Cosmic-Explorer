@@ -2,8 +2,15 @@
 
 #include <algorithm>
 #include <fstream>
+#include <ctime>
 
 using json = nlohmann::json;
+
+universeTime getTimeSinceJ2000() {
+	time_t timestamp = std::time(nullptr);
+	timestamp -= 946684800;
+	return static_cast<universeTime>(timestamp);
+}
 
 Entity* LogicManager::newEntity(EntityType type, std::string name) {
 	std::unique_ptr<Entity>& entity = entities.emplace_back(new Entity(type, name));

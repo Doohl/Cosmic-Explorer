@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <ctime>
 
 #include "imgui.h"
 #include "logic_manager.h"
@@ -19,7 +20,11 @@ void UIManager::render(LogicManager& logicState, int wheelEvent) {
 	ImGui::Begin("Info");
 	ImGui::Text("Camera: (%.3f, %.3f) km", cameraPosition.x, cameraPosition.y);
 	ImGui::Text("Zoom: x%.10f", cameraZoom);
-	ImGui::Text("Universe Time: %.3f s", logicState.getUniverseClock());
+	time_t currentTime = logicState.getUniverseTime();
+	char dateStr[26];
+	ctime_s(dateStr, sizeof dateStr, &currentTime);
+	ImGui::Text("Time: %s", &dateStr);
+	ImGui::TextColored(Vec4(0.55, 0.55, 0.55, 1.0), "(%f s since J2000)", logicState.getUniverseClock());
 	ImGui::Checkbox("Realtime system simulation", &logicState.universeAdvancing);
 	ImGui::SliderInt("Time multiplier", &logicState.timeScale, 1, 10000000);
 	ImGui::End();

@@ -56,7 +56,7 @@ int main(int, char**) {
     // bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.05f, 0.10f, 0.25f, 1.00f);
 
-	LogicManager logic;
+	LogicManager logic(getTimeSinceJ2000());
 	UIManager uiManager(window);
 
 	logic.initializeSol();
