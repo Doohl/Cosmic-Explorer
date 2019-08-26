@@ -5,6 +5,7 @@
 #include "typedefs.h"
 #include "vec2.h"
 #include "utilities.h"
+#include "json.hpp"
 
 // Perform a Newton Approximation for Eccentric Anomaly
 double eccentricAnomalyApproximation(int maxComputations, double eccentricAnomaly, 
@@ -13,34 +14,18 @@ double eccentricAnomalyApproximation(int maxComputations, double eccentricAnomal
 class KeplerOrbit {
 public:
 	// Create a 2D Kepler Orbit using 6 initial orbital elements
-	KeplerOrbit(double _semimajorAxis, double _eccentricity, universeTime _epochTime,
-		double _epochAnomaly, double _lAscending, double _aPeriapsis, double _standardGravTotal,
-		bool _clockwise)
-		: semimajorAxis(_semimajorAxis),
-		eccentricity(_eccentricity),
-		epochTime(_epochTime),
-		epochAnomaly(_epochAnomaly),
-		lAscending(_lAscending),
-		aPeriapsis(_aPeriapsis),
-		clockwise(_clockwise),
-		standardGravTotal(_standardGravTotal)
-	{
-		if(semimajorAxis <= 0)
-			throw "Invalid semimajor axis";
-		if(eccentricity < 0 || eccentricity >= 1.0)
-			throw "Eccentricity out of bounds";
-		if(standardGravTotal <= 0)
-			throw "Invalid standard grav total";
+	KeplerOrbit(double _semimajorAxis, double _eccentricity, universeTime _epoch,
+		double _meanAnomaly, double _lAscending, double _aPeriapsis, double _standardGravTotal,
+		bool _clockwise);
 
-		periapsis = semimajorAxis * (1 - eccentricity);
-		apoapsis = semimajorAxis * (1 + eccentricity);
-		semiminorAxis = std::sqrt(periapsis * apoapsis);
-		lPeriapsis = lAscending + aPeriapsis;
-		meanAngularMotion = std::sqrt(standardGravTotal / std::pow(semimajorAxis * 1000.0, 3.0));
-		if(clockwise)
-			meanAngularMotion *= -1;
-		period = std::sqrt(std::pow(semimajorAxis / Util::AU, 3)); // convert semimajorAxis from km to AU
-	}
+	// Create a 2D Kepler Orbit from a JSON object
+	KeplerOrbit(const nlohmann::json& object, double _standardGravTotal);
+
+	void initializeElements();
+
+	static universeTime getEpochTime(const std::string& epoch);
+	static universeTime getEpochTime(const nlohmann::json& object);
+
 	double getSemimajorAxis() const {
 		return semimajorAxis;
 	}
@@ -50,11 +35,11 @@ public:
 	double getEccentricity() const {
 		return eccentricity;
 	}
-	universeTime getEpochTime() const {
-		return epochTime;
+	universeTime getepoch() const {
+		return epoch;
 	}
-	double getEpochAnomaly() const {
-		return epochAnomaly;
+	double getmeanAnomaly() const {
+		return meanAnomaly;
 	}
 	double getLPeriapsis() const {
 		return lPeriapsis;
@@ -109,9 +94,9 @@ private:
 	// Eccentricity
 	double eccentricity;
 	// Starting epoch (seconds since J2000)
-	universeTime epochTime;
-	// Mean anomaly (radians)
-	double epochAnomaly;
+	universeTime epoch;
+	// Mean anomaly at epoch (radians)
+	double meanAnomaly;
 	// Longitude of the periapsis (radians)
 	double lPeriapsis;
 	// Longitude of the ascending node (radians)

@@ -123,8 +123,8 @@ public:
 	Vec2* setPosition(); 
 
 	// Define a set of orbital properties
-	KeplerOrbit* setOrbitalProperties(double _semimajorAxis, double _eccentricity, universeTime _epochTime,
-		double _epochAnomaly, double _lAscending, double _aPeriapsis, double _standardGravTotal,
+	KeplerOrbit* setOrbitalProperties(double _semimajorAxis, double _eccentricity, universeTime _epoch,
+		double _meanAnomaly, double _lAscending, double _aPeriapsis, double _standardGravTotal,
 		bool _clockwise);
 
 	// Define a set of physical properties

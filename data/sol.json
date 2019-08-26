@@ -17,8 +17,8 @@
       "orbit": {
         "semimajorAxis": 57909050,
         "eccentricity": 0.205630,
-        "epochTime": 0,
-        "epochAnomaly": 3.050765719,
+        "epoch": "J2000",
+        "meanAnomaly": 3.050765719,
         "lAscending": 0.843535081,
         "aPeriapsis": 0.508309691
       }
@@ -34,8 +34,8 @@
       "orbit": {
         "semimajorAxis": 149598023,
         "eccentricity": 0.0167086,
-        "epochTime": 0,
-        "epochAnomaly": 6.259047404,
+        "epoch": "J2000",
+        "meanAnomaly": 6.259047404,
         "lAscending": -0.196535244,
         "aPeriapsis": 1.99330266505
       },
@@ -48,8 +48,8 @@
           "orbit": {
             "semimajorAxis": 384399,
             "eccentricity": 0.0549,
-            "epochTime": 0,
-            "epochAnomaly": 2.214976985708,
+            "epoch": "J2000",
+            "meanAnomaly": 2.214976985708,
             "lAscending": 2.18305783,
             "aPeriapsis": 5.55276502
           }

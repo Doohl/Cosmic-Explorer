@@ -26,11 +26,11 @@ Vec2* Entity::setPosition() {
 	return position.get();
 }
 
-KeplerOrbit* Entity::setOrbitalProperties(double _semimajorAxis, double _eccentricity, universeTime _epochTime,
-	double _epochAnomaly, double _lAscending, double _aPeriapsis, double _standardGravTotal,
+KeplerOrbit* Entity::setOrbitalProperties(double _semimajorAxis, double _eccentricity, universeTime _epoch,
+	double _meanAnomaly, double _lAscending, double _aPeriapsis, double _standardGravTotal,
 	bool _clockwise) {
 	
-	orbitalProperties = std::make_unique<KeplerOrbit>(_semimajorAxis, _eccentricity, _epochTime, _epochAnomaly, 
+	orbitalProperties = std::make_unique<KeplerOrbit>(_semimajorAxis, _eccentricity, _epoch, _meanAnomaly, 
 		_lAscending, _aPeriapsis, _standardGravTotal, _clockwise);
 	
 	return orbitalProperties.get();

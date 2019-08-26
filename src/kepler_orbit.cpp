@@ -4,6 +4,78 @@
 
 #include "entity.h"
 #include "utilities.h"
+#include "json.hpp"
+
+using json = nlohmann::json;
+
+KeplerOrbit::KeplerOrbit(double _semimajorAxis, double _eccentricity, universeTime _epoch,
+	double _meanAnomaly, double _lAscending, double _aPeriapsis, double _standardGravTotal,
+	bool _clockwise)
+	: semimajorAxis(_semimajorAxis),
+	eccentricity(_eccentricity),
+	epoch(_epoch),
+	meanAnomaly(_meanAnomaly),
+	lAscending(_lAscending),
+	aPeriapsis(_aPeriapsis),
+	clockwise(_clockwise),
+	standardGravTotal(_standardGravTotal)
+{
+	if(semimajorAxis <= 0)
+		throw "Invalid semimajor axis";
+	if(eccentricity < 0 || eccentricity >= 1.0)
+		throw "Eccentricity out of bounds";
+	if(standardGravTotal <= 0)
+		throw "Invalid standard grav total";
+
+	initializeElements();
+}
+
+KeplerOrbit::KeplerOrbit(const json& object, double _standardGravTotal)
+	: semimajorAxis(object["semimajorAxis"]),
+	eccentricity(object["eccentricity"]),
+	epoch(KeplerOrbit::getEpochTime(object)),
+	meanAnomaly(object["meanAnomaly"]),
+	lAscending(object["lAscending"]),
+	aPeriapsis(object["aPeriapsis"]),
+	clockwise(object.contains("retrograde") ? false : true),
+	standardGravTotal(_standardGravTotal)
+{
+	if(semimajorAxis <= 0)
+		throw "Invalid semimajor axis";
+	if(eccentricity < 0 || eccentricity >= 1.0)
+		throw "Eccentricity out of bounds";
+	if(standardGravTotal <= 0)
+		throw "Invalid standard grav total";
+
+	initializeElements();
+}
+
+void KeplerOrbit::initializeElements() {
+	periapsis = semimajorAxis * (1 - eccentricity);
+	apoapsis = semimajorAxis * (1 + eccentricity);
+	semiminorAxis = std::sqrt(periapsis * apoapsis);
+	lPeriapsis = lAscending + aPeriapsis;
+	meanAngularMotion = std::sqrt(standardGravTotal / std::pow(semimajorAxis * 1000.0, 3.0));
+	if(clockwise)
+		meanAngularMotion *= -1;
+	period = std::sqrt(std::pow(semimajorAxis / Util::AU, 3)); // convert semimajorAxis from km to AU
+}
+
+universeTime KeplerOrbit::getEpochTime(const std::string& epoch) {
+	if(epoch == "J2000")
+		return 0.0;
+	return 0.0;
+}
+
+universeTime KeplerOrbit::getEpochTime(const json& object) {
+	if(object.contains("epoch")) {
+		if(object["epoch"].is_number())
+			return object["epoch"];
+		if(object["epoch"].is_string())
+			return KeplerOrbit::getEpochTime(object["epoch"]);
+	}
+	return 0.0;
+}
 
 double eccentricAnomalyApproximation(int maxComputations, double eccentricAnomaly, 
 	double meanAnomaly, double eccentricity, double error) {
@@ -24,24 +96,25 @@ Vec2 KeplerOrbit::getCenter(const Vec2& focus) const {
 	return rotatePoint(Vec2(x, y), focus, -lPeriapsis);
 }
 
-double KeplerOrbit::computeEccentricAnomaly(double meanAnomaly) const {
+double KeplerOrbit::computeEccentricAnomaly(double currentMeanAnomaly) const {
 	// Orbits of e > 0.8 -> initial value of pi used
 	if(eccentricity > 0.9) {
-		return eccentricAnomalyApproximation(1000, Util::PI, meanAnomaly, eccentricity, 10e-15);
+		return eccentricAnomalyApproximation(1000, Util::PI, currentMeanAnomaly, eccentricity, 10e-15);
 	} else if(eccentricity > 0.8) {
-		return eccentricAnomalyApproximation(500, Util::PI, meanAnomaly, eccentricity, 10e-15);
+		return eccentricAnomalyApproximation(500, Util::PI, currentMeanAnomaly, eccentricity, 10e-15);
 	} else {
-		return eccentricAnomalyApproximation(150, meanAnomaly, meanAnomaly, eccentricity, 10e-15);
+		return eccentricAnomalyApproximation(150, currentMeanAnomaly, currentMeanAnomaly, eccentricity, 10e-15);
 	}
 }
 
 double KeplerOrbit::computeMeanAnomaly(const universeTime& time) const {
-	return (meanAngularMotion * time) - epochAnomaly;
+	return (meanAngularMotion * time) - meanAnomaly;
 }
 
 double KeplerOrbit::computeTrueAnomaly(const universeTime& time) const {
-	double meanAnomaly = computeMeanAnomaly(time);
-	double eccentricAnomaly = computeEccentricAnomaly(meanAnomaly);
+	// Compute the current mean anomaly (offset by the epoch mean anomaly)
+	double currentMeanAnomaly = computeMeanAnomaly(time);
+	double eccentricAnomaly = computeEccentricAnomaly(currentMeanAnomaly);
 	return 2 * std::atan2(
 		std::sqrt(1 + eccentricity) * std::sin(eccentricAnomaly / 2),
 		std::sqrt(1 - eccentricity) * std::cos(eccentricAnomaly / 2)
@@ -49,7 +122,7 @@ double KeplerOrbit::computeTrueAnomaly(const universeTime& time) const {
 }
 
 Vec2 KeplerOrbit::computeCoordinates(const Vec2& focus, const universeTime& time) const {
-	double timeSinceEpoch = time - epochTime;
+	double timeSinceEpoch = time - epoch;
 	double trueAnomaly = computeTrueAnomaly(timeSinceEpoch);
 
 	// The distance from the focus in km

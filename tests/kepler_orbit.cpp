@@ -19,7 +19,9 @@ TEST_SUITE("KeplerOrbit") {
 		json earth = DummyData::Sol["children"][2];
 		double earthMass = earth["mass"]; // earth mass in kg
 		double standardGravTotal = (solarMass * Util::GRAV) + (earthMass * Util::GRAV);
-		KeplerOrbit earthOrbit(earth["orbit"]["semimajorAxis"], earth["orbit"]["eccentricity"], earth["orbit"]["epochTime"], earth["orbit"]["epochAnomaly"], earth["orbit"]["lAscending"], earth["orbit"]["aPeriapsis"], standardGravTotal, true);
+		universeTime epoch = KeplerOrbit::getEpochTime(earth["orbit"]);
+		
+		KeplerOrbit earthOrbit(earth["orbit"]["semimajorAxis"], earth["orbit"]["eccentricity"], epoch, earth["orbit"]["meanAnomaly"], earth["orbit"]["lAscending"], earth["orbit"]["aPeriapsis"], standardGravTotal, true);
 
 		SUBCASE("test Earth's computed static orbital elements") {
 			CHECK(earthOrbit.getPeriapsis() == doctest::Approx(147098449.4729).epsilon(0.0001));
@@ -73,12 +75,12 @@ TEST_SUITE("KeplerOrbit") {
 		json earth = DummyData::Sol["children"][2];
 		double earthMass = earth["mass"]; // earth mass in kg
 		double standardGravTotal = (solarMass * Util::GRAV) + (earthMass * Util::GRAV);
-		KeplerOrbit earthOrbit(earth["orbit"]["semimajorAxis"], earth["orbit"]["eccentricity"], earth["orbit"]["epochTime"], earth["orbit"]["epochAnomaly"], earth["orbit"]["lAscending"], earth["orbit"]["aPeriapsis"], standardGravTotal, true);
+		KeplerOrbit earthOrbit(earth["orbit"]["semimajorAxis"], earth["orbit"]["eccentricity"], KeplerOrbit::getEpochTime(earth["orbit"]), earth["orbit"]["meanAnomaly"], earth["orbit"]["lAscending"], earth["orbit"]["aPeriapsis"], standardGravTotal, true);
 
 		json moon = earth["children"][0];
 		double lunarMass = moon["mass"];
 		double standardGravTotalMoon = (earthMass * Util::GRAV) + (lunarMass * Util::GRAV);
-		KeplerOrbit moonOrbit(moon["orbit"]["semimajorAxis"], moon["orbit"]["eccentricity"], moon["orbit"]["epochTime"], moon["orbit"]["epochAnomaly"], moon["orbit"]["lAscending"], moon["orbit"]["aPeriapsis"], standardGravTotalMoon, true);
+		KeplerOrbit moonOrbit(moon["orbit"]["semimajorAxis"], moon["orbit"]["eccentricity"], KeplerOrbit::getEpochTime(moon["orbit"]), moon["orbit"]["meanAnomaly"], moon["orbit"]["lAscending"], moon["orbit"]["aPeriapsis"], standardGravTotalMoon, true);
 
 
 		SUBCASE("test Moon's computed static orbital elements") {
