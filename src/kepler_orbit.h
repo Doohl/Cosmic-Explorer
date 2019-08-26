@@ -5,7 +5,7 @@
 #include "typedefs.h"
 #include "vec2.h"
 #include "utilities.h"
-#include "json.hpp"
+#include "json_fwd.hpp"
 
 // Perform a Newton Approximation for Eccentric Anomaly
 double eccentricAnomalyApproximation(int maxComputations, double eccentricAnomaly, 

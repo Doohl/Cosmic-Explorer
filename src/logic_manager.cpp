@@ -4,6 +4,8 @@
 #include <fstream>
 #include <ctime>
 
+#include "json.hpp"
+
 using json = nlohmann::json;
 
 universeTime getTimeSinceJ2000() {

@@ -6,7 +6,7 @@
 
 #include "typedefs.h"
 #include "entity.h"
-#include "json.hpp"
+#include "json_fwd.hpp"
 
 // Get universe time relative to the J2000 epoch
 universeTime getTimeSinceJ2000();
