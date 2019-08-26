@@ -7,6 +7,24 @@
 #include "dummy_data.h"
 #include "utilities.h"
 
+void testEarthInit(KeplerOrbit& earthOrbit) {
+	CHECK(earthOrbit.getPeriapsis() == doctest::Approx(147098449.4729).epsilon(0.0001));
+	CHECK(earthOrbit.getApoapsis() == doctest::Approx(152097596.5271).epsilon(0.0001));
+	CHECK(earthOrbit.getSemiminorAxis() == doctest::Approx(149577139.3552).epsilon(0.0001));
+	CHECK(earthOrbit.getLPeriapsis() == doctest::Approx(1.7967674211761813).epsilon(0.0001));
+	CHECK(earthOrbit.getMeanAngularMotion() == doctest::Approx(-1.9910e-7).epsilon(1e-10));
+	CHECK(earthOrbit.getPeriod() == doctest::Approx(1).epsilon(1e-7));
+}
+
+void testMoonInit(KeplerOrbit& moonOrbit) {
+	CHECK(moonOrbit.getPeriapsis() == doctest::Approx(363295.4949).epsilon(0.0001));
+	CHECK(moonOrbit.getApoapsis() == doctest::Approx(405502.5051).epsilon(0.0001));
+	CHECK(moonOrbit.getSemiminorAxis() == doctest::Approx(383819.2716).epsilon(0.0001));
+	CHECK(moonOrbit.getLPeriapsis() == doctest::Approx(7.735822843614466).epsilon(0.0001));
+	CHECK(moonOrbit.getMeanAngularMotion() == doctest::Approx(-0.0000026653).epsilon(1e-10));
+	CHECK(moonOrbit.getPeriod() == doctest::Approx(0.0001302).epsilon(1e-7));
+}
+
 TEST_SUITE("KeplerOrbit") {
 
 	/**
@@ -24,12 +42,7 @@ TEST_SUITE("KeplerOrbit") {
 		KeplerOrbit earthOrbit(earth["orbit"]["semimajorAxis"], earth["orbit"]["eccentricity"], epoch, earth["orbit"]["meanAnomaly"], earth["orbit"]["lAscending"], earth["orbit"]["aPeriapsis"], standardGravTotal, true);
 
 		SUBCASE("test Earth's computed static orbital elements") {
-			CHECK(earthOrbit.getPeriapsis() == doctest::Approx(147098449.4729).epsilon(0.0001));
-			CHECK(earthOrbit.getApoapsis() == doctest::Approx(152097596.5271).epsilon(0.0001));
-			CHECK(earthOrbit.getSemiminorAxis() == doctest::Approx(149577139.3552).epsilon(0.0001));
-			CHECK(earthOrbit.getLPeriapsis() == doctest::Approx(1.7967674211761813).epsilon(0.0001));
-			CHECK(earthOrbit.getMeanAngularMotion() == doctest::Approx(-1.9910e-7).epsilon(1e-10));
-			CHECK(earthOrbit.getPeriod() == doctest::Approx(1).epsilon(1e-7));
+			testEarthInit(earthOrbit);
 		}
 		SUBCASE("test Earth's orbital center") {
 			Vec2 center = earthOrbit.getCenter(solarPosition);
@@ -84,12 +97,7 @@ TEST_SUITE("KeplerOrbit") {
 
 
 		SUBCASE("test Moon's computed static orbital elements") {
-			CHECK(moonOrbit.getPeriapsis() == doctest::Approx(363295.4949).epsilon(0.0001));
-			CHECK(moonOrbit.getApoapsis() == doctest::Approx(405502.5051).epsilon(0.0001));
-			CHECK(moonOrbit.getSemiminorAxis() == doctest::Approx(383819.2716).epsilon(0.0001));
-			CHECK(moonOrbit.getLPeriapsis() == doctest::Approx(7.735822843614466).epsilon(0.0001));
-			CHECK(moonOrbit.getMeanAngularMotion() == doctest::Approx(-0.0000026653).epsilon(1e-10));
-			CHECK(moonOrbit.getPeriod() == doctest::Approx(0.0001302).epsilon(1e-7));
+			testMoonInit(moonOrbit);
 		}
 		SUBCASE("test conditions at t = 0") {
 			universeTime t = 0.0;
@@ -104,6 +112,20 @@ TEST_SUITE("KeplerOrbit") {
 				CHECK(position.x == doctest::Approx(-29695629.5249).epsilon(0.0001));
 				CHECK(position.y == doctest::Approx(-143909480.6461).epsilon(0.0001));
 			}
+		}
+	}
+
+	TEST_CASE("Initializing KeplerOrbit with JSON") {
+		double solarMass = DummyData::Sol["mass"];
+
+		json earth = DummyData::Sol["children"][2];
+		double earthMass = earth["mass"]; // earth mass in kg
+		double standardGravTotal = (solarMass * Util::GRAV) + (earthMass * Util::GRAV);
+
+		KeplerOrbit earthOrbit(earth["orbit"], standardGravTotal);
+
+		SUBCASE("test Earth's computed static orbital elements") {
+			testEarthInit(earthOrbit);
 		}
 	}
 

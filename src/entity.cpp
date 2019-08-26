@@ -1,5 +1,7 @@
 #include "entity.h"
 
+using json = nlohmann::json;
+
 Vec4 Entity::getColor() const {
 	if(type == EntityType::planet) {
 		return {152, 167, 214};
@@ -33,6 +35,12 @@ KeplerOrbit* Entity::setOrbitalProperties(double _semimajorAxis, double _eccentr
 	orbitalProperties = std::make_unique<KeplerOrbit>(_semimajorAxis, _eccentricity, _epoch, _meanAnomaly, 
 		_lAscending, _aPeriapsis, _standardGravTotal, _clockwise);
 	
+	return orbitalProperties.get();
+}
+
+KeplerOrbit* Entity::loadOrbitalProperties(const json& object, double _standardGravTotal) {
+	orbitalProperties = std::make_unique<KeplerOrbit>(object, _standardGravTotal);
+
 	return orbitalProperties.get();
 }
 

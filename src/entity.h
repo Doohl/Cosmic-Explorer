@@ -127,6 +127,9 @@ public:
 		double _meanAnomaly, double _lAscending, double _aPeriapsis, double _standardGravTotal,
 		bool _clockwise);
 
+	// Set orbital properties from JSON
+	KeplerOrbit* loadOrbitalProperties(const nlohmann::json& object, double _standardGravTotal);
+
 	// Define a set of physical properties
 	PhysicalProperties* setPhysicalProperties(double _radius, double _minRadius, double _mass);
 	

@@ -124,10 +124,7 @@ void LogicManager::initializeSystem(json system) {
 			if(object.contains("orbit") && parent != nullptr) {
 				json orbit = object["orbit"];
 				double standardGravTotal = physicalProps->standardGrav + parent->getPhysicalProperties()->standardGrav;
-				universeTime epoch = KeplerOrbit::getEpochTime(orbit);
-				celestial->setOrbitalProperties(orbit["semimajorAxis"], orbit["eccentricity"], epoch,
-					orbit["meanAnomaly"], orbit["lAscending"], orbit["aPeriapsis"],
-					standardGravTotal, orbit.contains("retrograde") ? false : true);
+				celestial->loadOrbitalProperties(orbit, standardGravTotal);
 				
 				// Set the Celestial's starting position with the current universeClock
 				celestial->setPosition(celestial->getOrbitalProperties()->computeCoordinates(*(parent->position), universeClock));
