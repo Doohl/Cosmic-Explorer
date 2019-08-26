@@ -95,61 +95,58 @@ void UIManager::renderCosmos(LogicManager& logicState, int wheelEvent) {
 	ImDrawList* drawList = ImGui::GetWindowDrawList();
 	Vec2 windowCenter = { windowSize.x / 2, windowSize.y / 2 };
 
+	Vec2& camera = cameraPosition;
+	double& zoom = cameraZoom;
+
 	// Draw orbits
-	{
-		for(auto iter = logicState.getEntitiesBegin(); iter != logicState.getEntitiesEnd(); iter++) {
-			Entity* entity = iter->get();
-			KeplerOrbit* orbitalProps = entity->getOrbitalProperties();
-			Vec2* position = entity->getPosition();
-			Entity* parentEntity = entity->getParentEntity();
+	logicState.forEntities( [&drawList, &windowCenter, &camera, &zoom](Entity* entity) {
+		KeplerOrbit* orbitalProps = entity->getOrbitalProperties();
+		Vec2* position = entity->getPosition();
+		Entity* parentEntity = entity->getParentEntity();
 
-			if(!orbitalProps || !position || !parentEntity)
-				continue;
+		if(!orbitalProps || !position || !parentEntity)
+			return;
 
-			Vec2 orbitCenter = orbitalProps->getCenter(*parentEntity->getPosition());
-			Vec2 drawCenter = {
-				windowCenter.x + (orbitCenter.x - cameraPosition.x) * cameraZoom,
-				windowCenter.y + (orbitCenter.y - cameraPosition.y) * cameraZoom
-			};
+		Vec2 orbitCenter = orbitalProps->getCenter(*parentEntity->getPosition());
+		Vec2 drawCenter = {
+			windowCenter.x + (orbitCenter.x - camera.x) * zoom,
+			windowCenter.y + (orbitCenter.y - camera.y) * zoom
+		};
 
-			float orbitAlpha = 1.0f - static_cast<float>(orbitalProps->getSemimajorAxis() * cameraZoom / Util::MAX_ELLIPSE_SEMIMAJOR);
-			if(orbitAlpha >= 0.99f)
-				orbitAlpha = 1.0f;
+		float orbitAlpha = 1.0f - static_cast<float>(orbitalProps->getSemimajorAxis() * zoom / Util::MAX_ELLIPSE_SEMIMAJOR);
+		if(orbitAlpha >= 0.99f)
+			orbitAlpha = 1.0f;
 
-			if(orbitAlpha > 0.0f) {
-				drawList->AddEllipse(drawCenter, static_cast<float>(orbitalProps->getSemimajorAxis() * cameraZoom),
-					static_cast<float>(orbitalProps->getSemiminorAxis() * cameraZoom),
-					ImColor(Vec4(113.0f / 255.0f, 117.0f / 255.0f, 130.0f / 255.0f, orbitAlpha )), static_cast<float>(-orbitalProps->getLPeriapsis()), 100);
-			}
+		if(orbitAlpha > 0.0f) {
+			drawList->AddEllipse(drawCenter, static_cast<float>(orbitalProps->getSemimajorAxis() * zoom),
+				static_cast<float>(orbitalProps->getSemiminorAxis() * zoom),
+				ImColor(Vec4(113.0f / 255.0f, 117.0f / 255.0f, 130.0f / 255.0f, orbitAlpha)), static_cast<float>(-orbitalProps->getLPeriapsis()), 100);
 		}
-	}
+	});
 
 	// Draw entities
-	{
-		for(auto iter = logicState.getEntitiesBegin(); iter != logicState.getEntitiesEnd(); iter++) {
-			Entity* entity = iter->get();
-			PhysicalProperties* physicalProps = entity->getPhysicalProperties();
-			Vec2* position = entity->getPosition();
+	logicState.forEntities([&drawList, &windowCenter, &camera, &zoom](Entity* entity) {
+		PhysicalProperties* physicalProps = entity->getPhysicalProperties();
+		Vec2* position = entity->getPosition();
 
-			if(!physicalProps || !position)
-				continue;
+		if(!physicalProps || !position)
+			return;
 
-			float radius = static_cast<float>(std::max(physicalProps->minRadius, physicalProps->radius * cameraZoom));
-			if(radius <= 0)
-				continue;
-			
-			Vec2 drawPos = {
-				windowCenter.x + (entity->position->x - cameraPosition.x) * cameraZoom,
-				windowCenter.y + (entity->position->y - cameraPosition.y) * cameraZoom
-			};
+		float radius = static_cast<float>(std::max(physicalProps->minRadius, physicalProps->radius * zoom));
+		if(radius <= 0)
+			return;
 
-			drawList->AddCircleFilled(drawPos, radius, ImColor(entity->getColor()), 100);
-			if(radius > 2 || cameraZoom >= 0.0001 || entity->getType() == EntityType::star) {
-				std::string name = entity->getName();
-				drawList->AddText(Vec2(drawPos.x - name.size() * 3.5, drawPos.y + radius + 2), ImColor(entity->getColor()), name.data());
-			}
+		Vec2 drawPos = {
+			windowCenter.x + (entity->position->x - camera.x) * zoom,
+			windowCenter.y + (entity->position->y - camera.y) * zoom
+		};
+
+		drawList->AddCircleFilled(drawPos, radius, ImColor(entity->getColor()), 100);
+		if(radius > 2 || zoom >= 0.0001 || entity->getType() == EntityType::star) {
+			std::string name = entity->getName();
+			drawList->AddText(Vec2(drawPos.x - name.size() * 3.5, drawPos.y + radius + 2), ImColor(entity->getColor()), name.data());
 		}
-	}
+	});
 	ImGui::End();
 }
 

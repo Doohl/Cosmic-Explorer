@@ -71,11 +71,25 @@ std::vector<std::unique_ptr<Entity>>::iterator LogicManager::getEntitiesEnd() {
 	return entities.end();
 }
 
+void LogicManager::forEntities(const std::function<void(Entity*)>& fn) {
+	for(auto& uPtr : entities) {
+		fn(uPtr.get());
+	}
+}
+void LogicManager::forEntities(const std::function<void(Entity*)>& fn, 
+	std::vector<std::unique_ptr<Entity>>::iterator& begin,
+	std::vector<std::unique_ptr<Entity>>::iterator& end
+	) 
+{
+	for(; begin != end; begin++) {
+		fn(begin->get());
+	}
+}
+
 void LogicManager::clockForward(universeTime increment) {
 	universeClock += increment;
-
-	for(auto iter = entities.begin(); iter != entities.end(); iter++) {
-		Entity* entity = iter->get();
+	for(auto& uPtr : entities) {
+		Entity* entity = uPtr.get();
 		KeplerOrbit* orbit = entity->getOrbitalProperties();
 		Vec2* currentPos = entity->getPosition();
 		Entity* parent = entity->getParentEntity();
@@ -136,8 +150,8 @@ void LogicManager::initializeSystem(json system) {
 		}
 		if(object.contains("children")) {
 			json children = object["children"];
-			for(auto iter = children.begin(); iter != children.end(); iter++) {
-				Entity* childEntity = loadEntity(*iter, celestial);
+			for(const json& child : children) {
+				Entity* childEntity = loadEntity(child, celestial);
 				celestial->addChildEntity(childEntity);
 			}
 		}

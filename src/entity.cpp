@@ -66,8 +66,7 @@ std::vector<Entity*> Entity::getEntityNetwork() {
 	while(!toExplore.empty()) {
 		std::vector<Entity*> tempExplore = toExplore;
 		toExplore.clear();
-		for(auto iter = tempExplore.begin(); iter != tempExplore.end(); iter++) {
-			Entity* entity = *iter;
+		for(Entity* entity : tempExplore) {
 			network.push_back(entity);
 
 			std::vector<Entity*> children = entity->getChildEntities();

@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <functional>
 
 #include "typedefs.h"
 #include "entity.h"
@@ -52,6 +53,14 @@ public:
 	// Helper functions to iterate through the vector of entities
 	std::vector<std::unique_ptr<Entity>>::iterator getEntitiesBegin();
 	std::vector<std::unique_ptr<Entity>>::iterator getEntitiesEnd();
+
+	// Do something on all entities
+	void forEntities(const std::function<void(Entity*)>& fn);
+
+	// Do something on all entities within a range
+	void forEntities(const std::function<void(Entity*)>& fn,
+		std::vector<std::unique_ptr<Entity>>::iterator& begin,
+		std::vector<std::unique_ptr<Entity>>::iterator& end);
 
 	// Advance time by a given increment (in seconds since the J2000 Epoch)
 	void clockForward(universeTime timeIncrement);
