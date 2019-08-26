@@ -8,6 +8,7 @@
 #include "entity.h"
 #include "json.hpp"
 
+// Get universe time relative to the J2000 epoch
 universeTime getTimeSinceJ2000();
 
 

@@ -7,6 +7,10 @@
 #include "imgui.h"
 #include "logic_manager.h"
 
+#ifdef _MSC_VER
+#pragma warning (disable: 4996) // 'This function or variable may be unsafe'
+#endif
+
 Vec2 UIManager::getSDLWindowSize() const {
 	int width;
 	int height;
@@ -16,19 +20,12 @@ Vec2 UIManager::getSDLWindowSize() const {
 
 void UIManager::render(LogicManager& logicState, int wheelEvent) {
 	renderCosmos(logicState, wheelEvent);
-
-	ImGui::Begin("Info");
-	ImGui::Text("Camera: (%.3f, %.3f) km", cameraPosition.x, cameraPosition.y);
-	ImGui::Text("Zoom: x%.10f", cameraZoom);
-	time_t currentTime = logicState.getUniverseTime();
-	ImGui::Text("Time: %s", std::ctime(&currentTime));
-	ImGui::TextColored(Vec4(0.55, 0.55, 0.55, 1.0), "(%f s since J2000)", logicState.getUniverseClock());
-	ImGui::Checkbox("Realtime system simulation", &logicState.universeAdvancing);
-	ImGui::SliderInt("Time multiplier", &logicState.timeScale, 1, 10000000);
-	ImGui::End();
+	
+	if(infoOpen) renderInfo(logicState);
+	if(logOpen) renderLog();
 
 	if(logicState.universeAdvancing) {
-		universeTime timeStep = 1.0 / ImGui::GetIO().Framerate * static_cast<double>(logicState.timeScale);
+		universeTime timeStep = ImGui::GetIO().DeltaTime * static_cast<double>(logicState.timeScale);
 		logicState.clockForward(timeStep);
 	}
 }
@@ -58,12 +55,21 @@ void UIManager::renderCosmos(LogicManager& logicState, int wheelEvent) {
 
 	Vec2 windowSize = getSDLWindowSize();
 
-	ImGui::SetNextWindowPos({0, 0});
+	ImGui::SetNextWindowPos({ 0, 0 });
 	ImGui::SetNextWindowSize(windowSize);
-	ImGui::Begin("Cosmos", &toRenderCosmos, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoSavedSettings | 
-		ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoBackground);
+	ImGui::Begin("Cosmos", &toRenderCosmos, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoSavedSettings |
+		ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_MenuBar);
 
-	ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
+	if(ImGui::BeginMenuBar()) {
+		if(ImGui::BeginMenu("Menus")) {
+			ImGui::MenuItem("Info", NULL, &infoOpen);
+			ImGui::MenuItem("Log", NULL, &logOpen);
+			ImGui::EndMenu();
+		}
+		ImGui::Text(" |   FPS: %.0f (%.2f ms)", ImGui::GetIO().Framerate, ImGui::GetIO().DeltaTime * 1000.0f);
+		//ImGui::MenuItem(" | Shit", NULL, nullptr, false);
+		ImGui::EndMenuBar();
+	}
 
 	if(ImGui::IsWindowFocused()) {
 		// Handle scroll wheel
@@ -145,4 +151,44 @@ void UIManager::renderCosmos(LogicManager& logicState, int wheelEvent) {
 		}
 	}
 	ImGui::End();
+}
+
+void UIManager::renderInfo(LogicManager& logicState) {
+	if(!ImGui::Begin("Info", &infoOpen, ImGuiWindowFlags_AlwaysAutoResize)) {
+		ImGui::End();
+		return;
+	}
+	ImGui::Text("Camera: (%.3f, %.3f) km", cameraPosition.x, cameraPosition.y);
+	ImGui::Text("Zoom: x%.10f", cameraZoom);
+	time_t currentTime = logicState.getUniverseTime();
+	ImGui::Text("Time: %s", std::ctime(&currentTime));
+	ImGui::TextColored(Vec4(0.55, 0.55, 0.55, 1.0), "(%f s since J2000)", logicState.getUniverseClock());
+	ImGui::Checkbox("Realtime system simulation", &logicState.universeAdvancing);
+	ImGui::SliderInt("Time multiplier", &logicState.timeScale, 1, 10000000);
+	ImGui::End();
+}
+
+void UIManager::renderLog() {
+	ImGui::SetNextWindowSize(ImVec2(400, 600), ImGuiCond_FirstUseEver);
+	if(!ImGui::Begin("Log", &logOpen)) {
+		ImGui::End();
+		return;
+	}
+	ImGui::BeginChild("LoggerRegion", Vec2(0.0, -1), false, ImGuiWindowFlags_AlwaysVerticalScrollbar);
+	for(const std::string& msg : loggedMessages) {
+		ImGui::TextUnformatted(msg.data());
+	}
+	ImGui::EndChild();
+	ImGui::End();
+}
+
+void UIManager::log(const char* msg) {
+	loggedMessages.emplace_back(msg);
+	if(logOpen) {
+		ImGui::Begin("Log");
+		ImGui::BeginChild("LoggerRegion");
+		ImGui::SetScrollY(ImGui::GetScrollMaxY());
+		ImGui::EndChild();
+		ImGui::End();
+	}
 }
