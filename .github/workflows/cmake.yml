@@ -9,7 +9,7 @@ jobs:
     - uses: actions/checkout@master
     
     - name: install dependencies
-      run: apt install libsdl2-dev cmake
+      run: sudo apt install libsdl2-dev cmake
       
     - name: generate makefile
       run: mkdir build && cd build && cmake ..
