@@ -3,6 +3,8 @@
 
 **Cosmic Explorer** is a simple 2D Solar System renderer and explorer written in C++. It is powered by the [ImGUI](https://github.com/ocornut/imgui) interface library.
 
+![UI example](https://i.imgur.com/HXFtEoy.png)
+
 # Building the Code
 
 This project uses [CMake](https://cmake.org/) for build file generation. Building is currently only tested against Linux and Windows.
