@@ -36,7 +36,7 @@ TEST_SUITE("KeplerOrbit") {
 
 		json earth = DummyData::Sol["children"][2];
 		double earthMass = earth["mass"]; // earth mass in kg
-		double standardGravTotal = (solarMass * Util::GRAV) + (earthMass * Util::GRAV);
+		double standardGravTotal = (solarMass * Util::grav) + (earthMass * Util::grav);
 		universeTime epoch = KeplerOrbit::getEpochTime(earth["orbit"]);
 		
 		KeplerOrbit earthOrbit(earth["orbit"]["semimajorAxis"], earth["orbit"]["eccentricity"], epoch, earth["orbit"]["meanAnomaly"], earth["orbit"]["lAscending"], earth["orbit"]["aPeriapsis"], standardGravTotal, true);
@@ -87,12 +87,12 @@ TEST_SUITE("KeplerOrbit") {
 
 		json earth = DummyData::Sol["children"][2];
 		double earthMass = earth["mass"]; // earth mass in kg
-		double standardGravTotal = (solarMass * Util::GRAV) + (earthMass * Util::GRAV);
+		double standardGravTotal = (solarMass * Util::grav) + (earthMass * Util::grav);
 		KeplerOrbit earthOrbit(earth["orbit"]["semimajorAxis"], earth["orbit"]["eccentricity"], KeplerOrbit::getEpochTime(earth["orbit"]), earth["orbit"]["meanAnomaly"], earth["orbit"]["lAscending"], earth["orbit"]["aPeriapsis"], standardGravTotal, true);
 
 		json moon = earth["children"][0];
 		double lunarMass = moon["mass"];
-		double standardGravTotalMoon = (earthMass * Util::GRAV) + (lunarMass * Util::GRAV);
+		double standardGravTotalMoon = (earthMass * Util::grav) + (lunarMass * Util::grav);
 		KeplerOrbit moonOrbit(moon["orbit"]["semimajorAxis"], moon["orbit"]["eccentricity"], KeplerOrbit::getEpochTime(moon["orbit"]), moon["orbit"]["meanAnomaly"], moon["orbit"]["lAscending"], moon["orbit"]["aPeriapsis"], standardGravTotalMoon, true);
 
 
@@ -120,7 +120,7 @@ TEST_SUITE("KeplerOrbit") {
 
 		json earth = DummyData::Sol["children"][2];
 		double earthMass = earth["mass"]; // earth mass in kg
-		double standardGravTotal = (solarMass * Util::GRAV) + (earthMass * Util::GRAV);
+		double standardGravTotal = (solarMass * Util::grav) + (earthMass * Util::grav);
 
 		KeplerOrbit earthOrbit(earth["orbit"], standardGravTotal);
 

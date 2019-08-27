@@ -103,8 +103,6 @@ private:
 	double lAscending;
 	// Argument of the periapsis (radians)
 	double aPeriapsis;
-	// True if the orbit is travelling clockwise relative to the viewport
-	bool clockwise;
 
 	// The closest distance to the parent (km)
 	double periapsis;
@@ -118,4 +116,7 @@ private:
 	double meanAngularMotion;
 	// Orbital period: time for one revolution, in years
 	universeTime period;
+
+	// True if the orbit is travelling clockwise relative to the viewport
+	bool clockwise;
 };

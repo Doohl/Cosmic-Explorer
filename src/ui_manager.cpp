@@ -113,7 +113,7 @@ void UIManager::renderCosmos(LogicManager& logicState, int wheelEvent) {
 			windowCenter.y + (orbitCenter.y - camera.y) * zoom
 		};
 
-		float orbitAlpha = 1.0f - static_cast<float>(orbitalProps->getSemimajorAxis() * zoom / Util::MAX_ELLIPSE_SEMIMAJOR);
+		float orbitAlpha = 1.0f - static_cast<float>(orbitalProps->getSemimajorAxis() * zoom / Util::maxEllipseSemimajor);
 		if(orbitAlpha >= 0.99f)
 			orbitAlpha = 1.0f;
 

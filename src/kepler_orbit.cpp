@@ -17,8 +17,8 @@ KeplerOrbit::KeplerOrbit(double _semimajorAxis, double _eccentricity, universeTi
 	meanAnomaly(_meanAnomaly),
 	lAscending(_lAscending),
 	aPeriapsis(_aPeriapsis),
-	clockwise(_clockwise),
-	standardGravTotal(_standardGravTotal)
+	standardGravTotal(_standardGravTotal),
+	clockwise(_clockwise)
 {
 	if(semimajorAxis <= 0)
 		throw "Invalid semimajor axis";
@@ -37,8 +37,8 @@ KeplerOrbit::KeplerOrbit(const json& object, double _standardGravTotal)
 	meanAnomaly(object["meanAnomaly"]),
 	lAscending(object["lAscending"]),
 	aPeriapsis(object["aPeriapsis"]),
-	clockwise(object.contains("retrograde") ? false : true),
-	standardGravTotal(_standardGravTotal)
+	standardGravTotal(_standardGravTotal),
+	clockwise(object.contains("retrograde") ? false : true)
 {
 	if(semimajorAxis <= 0)
 		throw "Invalid semimajor axis";
@@ -58,7 +58,7 @@ void KeplerOrbit::initializeElements() {
 	meanAngularMotion = std::sqrt(standardGravTotal / std::pow(semimajorAxis * 1000.0, 3.0));
 	if(clockwise)
 		meanAngularMotion *= -1;
-	period = std::sqrt(std::pow(semimajorAxis / Util::AU, 3)); // convert semimajorAxis from km to AU
+	period = std::sqrt(std::pow(semimajorAxis / Util::au, 3)); // convert semimajorAxis from km to AU
 }
 
 universeTime KeplerOrbit::getEpochTime(const std::string& epoch) {
@@ -99,9 +99,9 @@ Vec2 KeplerOrbit::getCenter(const Vec2& focus) const {
 double KeplerOrbit::computeEccentricAnomaly(double currentMeanAnomaly) const {
 	// Orbits of e > 0.8 -> initial value of pi used
 	if(eccentricity > 0.9) {
-		return eccentricAnomalyApproximation(1000, Util::PI, currentMeanAnomaly, eccentricity, 10e-15);
+		return eccentricAnomalyApproximation(1000, Util::pi, currentMeanAnomaly, eccentricity, 10e-15);
 	} else if(eccentricity > 0.8) {
-		return eccentricAnomalyApproximation(500, Util::PI, currentMeanAnomaly, eccentricity, 10e-15);
+		return eccentricAnomalyApproximation(500, Util::pi, currentMeanAnomaly, eccentricity, 10e-15);
 	} else {
 		return eccentricAnomalyApproximation(150, currentMeanAnomaly, currentMeanAnomaly, eccentricity, 10e-15);
 	}
