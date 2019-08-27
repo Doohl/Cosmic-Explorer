@@ -24,7 +24,17 @@
       }
     },
     {
-      "name": "Venus"
+      "name": "Venus",
+      "radius": 6051.8,
+      "mass": 4.867e24,
+      "orbit": {
+        "semimajorAxisAU": 0.72333199,
+        "eccentricity": 0.000677323,
+        "epoch": "J2000",
+        "meanAnomalyDeg": "49 53.21",
+        "lAscendingDeg": 76.68069,
+        "aPeriapsisDeg":  54.85229
+      }
     },
     {
       "name": "Earth",
