@@ -23,8 +23,10 @@ public:
 
 	void initializeElements();
 
-	static universeTime getEpochTime(const std::string& epoch);
-	static universeTime getEpochTime(const nlohmann::json& object);
+	static universeTime GetEpochTime(const std::string& epoch);
+	static universeTime GetEpochTime(const nlohmann::json& object);
+
+	static double GetAnomaly(const nlohmann::json& object);
 
 	double getSemimajorAxis() const {
 		return semimajorAxis;

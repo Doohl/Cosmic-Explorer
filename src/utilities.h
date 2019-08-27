@@ -2,22 +2,27 @@
 
 namespace Util {
 	// Approximate PI constant
-	constexpr double pi = 3.14159265358979323846;
-	constexpr float pif = 3.14159265358979f;
+	constexpr double PI = 3.14159265358979323846;
+	constexpr float PIf = 3.14159265358979f;
 
 	// Approximate gravitational constant in [m^3 kg^-1 s^-2]
-	constexpr double grav = 6.67408e-11;
+	constexpr double Grav = 6.67408e-11;
 	// Conversion factor from AU to km
-	constexpr double au = 149598023;
-	// The number of seconds in an earth day
-	constexpr double earthYear = 3.154e+7;
+	constexpr double Au2Km = 149598023;
+	// The number of seconds in an earth year
+	constexpr double EarthYear = 3.154e+7;
 	// Conversion factor from degrees to radians
-	constexpr double deg2rad = 0.0174533;
-	// Number of seconds between the Unix epoch and the J2000 epoch
-	constexpr double j2000Unix = 946728000;
+	constexpr double Deg2Rad = 0.0174533;
+	// Conversion factor from arc minutes to radians
+	constexpr double ArcMin2Rad = 0.000290888;
+	// Conversion factor from arc seconds to radians
+	constexpr double ArcSec2Rad = 4.84814e-6;
+
+	// The unix time of the J2000 epoch
+	constexpr double J2000Unix = 946684800;
 
 	// Max allowed ellipse semimajor axis, in pixels
-	constexpr double maxEllipseSemimajor = 2000;
+	constexpr double MaxEllipseSemimajor = 2000;
 	// Max allowed distance from a system's center (~150 AU)
-	constexpr double systemEdge = 2.244e+10;
+	constexpr double SystemEdge = 2.244e+10;
 }

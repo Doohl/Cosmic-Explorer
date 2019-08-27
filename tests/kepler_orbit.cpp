@@ -36,8 +36,8 @@ TEST_SUITE("KeplerOrbit") {
 
 		json earth = DummyData::Sol["children"][2];
 		double earthMass = earth["mass"]; // earth mass in kg
-		double standardGravTotal = (solarMass * Util::grav) + (earthMass * Util::grav);
-		universeTime epoch = KeplerOrbit::getEpochTime(earth["orbit"]);
+		double standardGravTotal = (solarMass * Util::Grav) + (earthMass * Util::Grav);
+		universeTime epoch = KeplerOrbit::GetEpochTime(earth["orbit"]);
 		
 		KeplerOrbit earthOrbit(earth["orbit"]["semimajorAxis"], earth["orbit"]["eccentricity"], epoch, earth["orbit"]["meanAnomaly"], earth["orbit"]["lAscending"], earth["orbit"]["aPeriapsis"], standardGravTotal, true);
 
@@ -87,13 +87,13 @@ TEST_SUITE("KeplerOrbit") {
 
 		json earth = DummyData::Sol["children"][2];
 		double earthMass = earth["mass"]; // earth mass in kg
-		double standardGravTotal = (solarMass * Util::grav) + (earthMass * Util::grav);
-		KeplerOrbit earthOrbit(earth["orbit"]["semimajorAxis"], earth["orbit"]["eccentricity"], KeplerOrbit::getEpochTime(earth["orbit"]), earth["orbit"]["meanAnomaly"], earth["orbit"]["lAscending"], earth["orbit"]["aPeriapsis"], standardGravTotal, true);
+		double standardGravTotal = (solarMass * Util::Grav) + (earthMass * Util::Grav);
+		KeplerOrbit earthOrbit(earth["orbit"]["semimajorAxis"], earth["orbit"]["eccentricity"], KeplerOrbit::GetEpochTime(earth["orbit"]), earth["orbit"]["meanAnomaly"], earth["orbit"]["lAscending"], earth["orbit"]["aPeriapsis"], standardGravTotal, true);
 
 		json moon = earth["children"][0];
 		double lunarMass = moon["mass"];
-		double standardGravTotalMoon = (earthMass * Util::grav) + (lunarMass * Util::grav);
-		KeplerOrbit moonOrbit(moon["orbit"]["semimajorAxis"], moon["orbit"]["eccentricity"], KeplerOrbit::getEpochTime(moon["orbit"]), moon["orbit"]["meanAnomaly"], moon["orbit"]["lAscending"], moon["orbit"]["aPeriapsis"], standardGravTotalMoon, true);
+		double standardGravTotalMoon = (earthMass * Util::Grav) + (lunarMass * Util::Grav);
+		KeplerOrbit moonOrbit(moon["orbit"]["semimajorAxis"], moon["orbit"]["eccentricity"], KeplerOrbit::GetEpochTime(moon["orbit"]), moon["orbit"]["meanAnomaly"], moon["orbit"]["lAscending"], moon["orbit"]["aPeriapsis"], standardGravTotalMoon, true);
 
 
 		SUBCASE("test Moon's computed static orbital elements") {
@@ -120,13 +120,32 @@ TEST_SUITE("KeplerOrbit") {
 
 		json earth = DummyData::Sol["children"][2];
 		double earthMass = earth["mass"]; // earth mass in kg
-		double standardGravTotal = (solarMass * Util::grav) + (earthMass * Util::grav);
+		double standardGravTotal = (solarMass * Util::Grav) + (earthMass * Util::Grav);
 
 		KeplerOrbit earthOrbit(earth["orbit"], standardGravTotal);
 
 		SUBCASE("test Earth's computed static orbital elements") {
 			testEarthInit(earthOrbit);
 		}
+	}
+
+	TEST_CASE("KeplerOrbit::GetAnomaly") {
+		json orbit = {
+			{"meanAnomalyDeg", "55.2"}
+		};
+		CHECK(KeplerOrbit::GetAnomaly(orbit) == doctest::Approx(0.9634217).epsilon(0.00001));
+
+		orbit["meanAnomalyDeg"] = "55.2 12.0";
+		CHECK(KeplerOrbit::GetAnomaly(orbit) == doctest::Approx(0.9634217 + 0.00349066).epsilon(0.00001));
+
+		orbit["meanAnomalyDeg"] = "55.2 12.0 24.11";
+		CHECK(KeplerOrbit::GetAnomaly(orbit) == doctest::Approx(0.9634217 + 0.00349066 + 0.00010234417).epsilon(0.00001));
+
+		orbit["meanAnomalyDeg"] = "55.2 12.0 24.11 11";
+		CHECK(KeplerOrbit::GetAnomaly(orbit) == doctest::Approx(0.9634217 + 0.00349066 + 0.00010234417).epsilon(0.00001));
+
+		orbit["meanAnomalyDeg"] = "";
+		CHECK_THROWS(KeplerOrbit::GetAnomaly(orbit));
 	}
 
 	TEST_CASE("Malformed Kepler Orbits") {

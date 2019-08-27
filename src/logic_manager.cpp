@@ -8,10 +8,9 @@
 
 using json = nlohmann::json;
 
-universeTime getTimeSinceJ2000() {
+universeTime LogicManager::GetTimeSinceJ2000() {
 	time_t timestamp = std::time(nullptr);
-	timestamp -= 946684800;
-	return static_cast<universeTime>(timestamp);
+	return static_cast<universeTime>(timestamp - Util::J2000Unix);
 }
 
 Entity* LogicManager::newEntity(EntityType type, std::string name) {
@@ -141,7 +140,6 @@ void LogicManager::initializeSystem(json system) {
 				json orbit = object["orbit"];
 				double standardGravTotal = physicalProps->standardGrav + parent->getPhysicalProperties()->standardGrav;
 				celestial->loadOrbitalProperties(orbit, standardGravTotal);
-				
 				// Set the Celestial's starting position with the current universeClock
 				celestial->setPosition(celestial->getOrbitalProperties()->computeCoordinates(*(parent->position), universeClock));
 			} else {

@@ -57,7 +57,44 @@
       ]
     },
     {
-      "name": "Mars"
+      "name": "Mars",
+      "radius": 3389.5,
+      "mass": 64171e+23,
+      "orbit": {
+        "semimajorAxisAU": 1.5237,
+        "eccentricity": 0.0934,
+        "meanAnomalyDeg": "19 16.62",
+        "lAscendingDeg": 49.57854,
+        "aPeriapsisDeg": 286.4623
+      },
+      "children": [
+        {
+          "name": "Phobos",
+          "radius": 11.1,
+          "mass": 1.072e16,
+          "orbit": {
+            "semimajorAxis": 9380,
+            "eccentricity": 0.0151,
+            "lAscendingDeg": 164.931,
+            "aPeriapsisDeg": 150.247,
+            "epoch": -1577836800,
+            "meanAnomalyDeg": 92.474
+          }
+        },
+        {
+          "name": "Deimos",
+          "radius": 6.27644,
+          "mass": 1.5e15,
+          "orbit": {
+            "semimajorAxis": 23460,
+            "eccentricity": 2e-4,
+            "lAscendingDeg": 339.6,
+            "aPeriapsisDeg": 290.496,
+            "epoch": -1577836800,
+            "meanAnomalyDeg": 296.230
+          }
+        }
+      ]
     }
   ]
 }

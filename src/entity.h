@@ -44,7 +44,7 @@ struct PhysicalProperties {
 		: radius(_radius), minRadius(_minRadius),
 		mass(_mass)
 	{
-		standardGrav = mass * Util::grav;
+		standardGrav = mass * Util::Grav;
 	}
 
 	double radius = 0.0;

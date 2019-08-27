@@ -7,11 +7,8 @@
 
 #include "typedefs.h"
 #include "entity.h"
+#include "utilities.h"
 #include "json_fwd.hpp"
-
-// Get universe time relative to the J2000 epoch
-universeTime getTimeSinceJ2000();
-
 
 class LogicManager {
 public:
@@ -26,6 +23,9 @@ public:
 		viewingSystem("Sol"),
 		universeClock(startingTime)
 	{}
+
+	// Get the number of seconds (since the client's current calendar time) since the J2000 epoch
+	static universeTime GetTimeSinceJ2000();
 
 	// Create a new entity of a specified type and name
 	Entity* newEntity(EntityType type, std::string name);
@@ -47,7 +47,7 @@ public:
 	}
 	// Get the current time_t
 	time_t getUniverseTime() const {
-		return static_cast<time_t>(universeClock + 946684800);
+		return static_cast<time_t>(universeClock + Util::J2000Unix);
 	}
 
 	// Helper functions to iterate through the vector of entities

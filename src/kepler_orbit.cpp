@@ -1,6 +1,7 @@
 #include "kepler_orbit.h"
 
 #include <cmath>
+#include <sstream>
 
 #include "entity.h"
 #include "utilities.h"
@@ -31,15 +32,16 @@ KeplerOrbit::KeplerOrbit(double _semimajorAxis, double _eccentricity, universeTi
 }
 
 KeplerOrbit::KeplerOrbit(const json& object, double _standardGravTotal)
-	: semimajorAxis(object["semimajorAxis"]),
+	: semimajorAxis(object.contains("semimajorAxisAU") ? object["semimajorAxisAU"].get<double>() * Util::Au2Km : object["semimajorAxis"]),
 	eccentricity(object["eccentricity"]),
-	epoch(KeplerOrbit::getEpochTime(object)),
-	meanAnomaly(object["meanAnomaly"]),
-	lAscending(object["lAscending"]),
-	aPeriapsis(object["aPeriapsis"]),
+	epoch(KeplerOrbit::GetEpochTime(object)),
+	meanAnomaly(KeplerOrbit::GetAnomaly(object)),
+	lAscending(object.contains("lAscendingDeg") ? object["lAscendingDeg"].get<double>() * Util::Deg2Rad : object["lAscending"]),
+	aPeriapsis(object.contains("aPeriapsisDeg") ? object["aPeriapsisDeg"].get<double>() * Util::Deg2Rad : object["aPeriapsis"]),
 	standardGravTotal(_standardGravTotal),
 	clockwise(object.contains("retrograde") ? false : true)
 {
+
 	if(semimajorAxis <= 0)
 		throw "Invalid semimajor axis";
 	if(eccentricity < 0 || eccentricity >= 1.0)
@@ -58,23 +60,47 @@ void KeplerOrbit::initializeElements() {
 	meanAngularMotion = std::sqrt(standardGravTotal / std::pow(semimajorAxis * 1000.0, 3.0));
 	if(clockwise)
 		meanAngularMotion *= -1;
-	period = std::sqrt(std::pow(semimajorAxis / Util::au, 3)); // convert semimajorAxis from km to AU
+	period = std::sqrt(std::pow(semimajorAxis / Util::Au2Km, 3)); // convert semimajorAxis from km to AU
 }
 
-universeTime KeplerOrbit::getEpochTime(const std::string& epoch) {
+universeTime KeplerOrbit::GetEpochTime(const std::string& epoch) {
 	if(epoch == "J2000")
 		return 0.0;
 	return 0.0;
 }
 
-universeTime KeplerOrbit::getEpochTime(const json& object) {
+universeTime KeplerOrbit::GetEpochTime(const json& object) {
 	if(object.contains("epoch")) {
 		if(object["epoch"].is_number())
 			return object["epoch"];
 		if(object["epoch"].is_string())
-			return KeplerOrbit::getEpochTime(object["epoch"]);
+			return KeplerOrbit::GetEpochTime(object["epoch"]);
 	}
 	return 0.0;
+}
+
+double KeplerOrbit::GetAnomaly(const json& object) {
+	if(object.contains("meanAnomalyDeg")) {
+		if(object["meanAnomalyDeg"].is_number())
+			return object["meanAnomalyDeg"].get<double>() * Util::Deg2Rad;
+		// Assume the meanAnomalyDeg is a string, which takes the form of "degrees arcminutes arcseconds"
+		double rads = 0.0;
+
+		std::stringstream stream(object["meanAnomalyDeg"].get<std::string>());
+		double num;
+		if(stream >> num) {
+			rads = num * Util::Deg2Rad;
+		} else {
+			throw "meanAnomalyDeg cannot be defined and empty!";
+		}
+		if(stream >> num)
+			rads += num * Util::ArcMin2Rad;
+		if(stream >> num)
+			rads += num * Util::ArcSec2Rad;
+
+		return rads;
+	}
+	return object["meanAnomaly"];
 }
 
 double eccentricAnomalyApproximation(int maxComputations, double eccentricAnomaly, 
@@ -99,9 +125,9 @@ Vec2 KeplerOrbit::getCenter(const Vec2& focus) const {
 double KeplerOrbit::computeEccentricAnomaly(double currentMeanAnomaly) const {
 	// Orbits of e > 0.8 -> initial value of pi used
 	if(eccentricity > 0.9) {
-		return eccentricAnomalyApproximation(1000, Util::pi, currentMeanAnomaly, eccentricity, 10e-15);
+		return eccentricAnomalyApproximation(1000, Util::PI, currentMeanAnomaly, eccentricity, 10e-15);
 	} else if(eccentricity > 0.8) {
-		return eccentricAnomalyApproximation(500, Util::pi, currentMeanAnomaly, eccentricity, 10e-15);
+		return eccentricAnomalyApproximation(500, Util::PI, currentMeanAnomaly, eccentricity, 10e-15);
 	} else {
 		return eccentricAnomalyApproximation(150, currentMeanAnomaly, currentMeanAnomaly, eccentricity, 10e-15);
 	}

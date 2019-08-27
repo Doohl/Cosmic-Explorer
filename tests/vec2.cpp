@@ -26,7 +26,7 @@ TEST_SUITE("Vec2") {
 	TEST_CASE("Rotating a Vec2") {
 		Vec2 point = {100, 100};
 		Vec2 origin = {-20, -20};
-		Vec2 rotated = rotatePoint(point, origin, Util::pi / 4);
+		Vec2 rotated = rotatePoint(point, origin, Util::PI / 4);
 		CHECK(rotated.x == doctest::Approx(-20).epsilon(0.0001));
 		CHECK(rotated.y == doctest::Approx(149.705627).epsilon(0.0001));
 	}
