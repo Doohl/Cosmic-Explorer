@@ -9,13 +9,13 @@ jobs:
     - uses: actions/checkout@master
     
     - name: install dependencies
-      run: sudo apt install libsdl2-dev cmake
+      run: sudo apt install libsdl2-dev
       
     - name: generate makefile
       run: mkdir build && cd build && cmake ..
       
     - name: make
-      run: make
+      run: cd build && make
       
   test:
     runs-on: ubuntu-latest
