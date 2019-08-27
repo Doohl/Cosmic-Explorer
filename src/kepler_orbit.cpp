@@ -32,12 +32,12 @@ KeplerOrbit::KeplerOrbit(double _semimajorAxis, double _eccentricity, universeTi
 }
 
 KeplerOrbit::KeplerOrbit(const json& object, double _standardGravTotal)
-	: semimajorAxis(object.contains("semimajorAxisAU") ? object["semimajorAxisAU"].get<double>() * Util::Au2Km : object["semimajorAxis"]),
-	eccentricity(object["eccentricity"]),
+	: semimajorAxis(object.contains("semimajorAxisAU") ? object["semimajorAxisAU"].get<double>() * Util::Au2Km : object["semimajorAxis"].get<double>()),
+	eccentricity(object["eccentricity"].get<double>()),
 	epoch(KeplerOrbit::GetEpochTime(object)),
 	meanAnomaly(KeplerOrbit::GetAnomaly(object)),
-	lAscending(object.contains("lAscendingDeg") ? object["lAscendingDeg"].get<double>() * Util::Deg2Rad : object["lAscending"]),
-	aPeriapsis(object.contains("aPeriapsisDeg") ? object["aPeriapsisDeg"].get<double>() * Util::Deg2Rad : object["aPeriapsis"]),
+	lAscending(object.contains("lAscendingDeg") ? object["lAscendingDeg"].get<double>() * Util::Deg2Rad : object["lAscending"].get<double>()),
+	aPeriapsis(object.contains("aPeriapsisDeg") ? object["aPeriapsisDeg"].get<double>() * Util::Deg2Rad : object["aPeriapsis"].get<double>()),
 	standardGravTotal(_standardGravTotal),
 	clockwise(object.contains("retrograde") ? false : true)
 {
@@ -100,7 +100,7 @@ double KeplerOrbit::GetAnomaly(const json& object) {
 
 		return rads;
 	}
-	return object["meanAnomaly"];
+	return object["meanAnomaly"].get<double>();
 }
 
 double eccentricAnomalyApproximation(int maxComputations, double eccentricAnomaly, 

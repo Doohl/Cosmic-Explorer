@@ -125,12 +125,9 @@ void LogicManager::initializeSystem(json system) {
 
 		if(object.contains("mass")) {
 			double minRadius = 2;
-			switch(type) {
-				case EntityType::star:
-					minRadius = 6;
-					break;
-			}
-			if(object.contains("children")) {
+			if(type == EntityType::star) {
+				minRadius = 6;
+			} else if(object.contains("children")) {
 				minRadius = 3;
 			}
 
