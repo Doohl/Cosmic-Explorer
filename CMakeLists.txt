@@ -28,6 +28,7 @@ endif()
 add_subdirectory(external)
 add_subdirectory(src)
 
+add_subdirectory(data)
 
 ## 
 ## Build the main executable
@@ -42,7 +43,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
 	)
 	set_target_properties(${PROJECT_NAME} PROPERTIES 
 		COMPILE_FLAGS "-s USE_SDL=2 -s WASM=1"
-		LINK_FLAGS "-s USE_SDL=2 -s USE_WEBGL2=1 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -s BINARYEN_TRAP_MODE=clamp -s DISABLE_EXCEPTION_CATCHING=1 -s NO_EXIT_RUNTIME=0 -s ASSERTIONS=1 -s --preload-file ${CMAKE_SOURCE_DIR}/data/sol.json@sol.json"
+		LINK_FLAGS "-s USE_SDL=2 -s USE_WEBGL2=1 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -s BINARYEN_TRAP_MODE=clamp -s DISABLE_EXCEPTION_CATCHING=1 -s NO_EXIT_RUNTIME=0 -s ASSERTIONS=1 ${FILE_FLAGS}"
 	)
 else()
 	target_link_libraries(${PROJECT_NAME}
@@ -52,5 +53,3 @@ else()
 			${SDL2_LIBRARIES}
 	)
 endif()
-
-add_subdirectory(data)

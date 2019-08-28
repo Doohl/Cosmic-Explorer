@@ -1,11 +1,15 @@
 ﻿<!doctype html>
 <html lang="en-us">
-  <head>
+<head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
     <title>Cosmic Explorer</title>
     <style>
-        body { margin: 0; background-color: black }
+        body {
+            margin: 0;
+            background-color: black
+        }
+
         .emscripten {
             position: absolute;
             top: 0px;
@@ -26,38 +30,39 @@
             -ms-interpolation-mode: nearest-neighbor;
         }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
     <script type='text/javascript'>
-      var Module = {
-        preRun: [],
-        postRun: [],
-        print: (function() {
-            return function(text) {
+        var Module = {
+            preRun: [],
+            postRun: [],
+            print: (function () {
+                return function (text) {
+                    text = Array.prototype.slice.call(arguments).join(' ');
+                    console.log(text);
+                };
+            })(),
+            printErr: function (text) {
                 text = Array.prototype.slice.call(arguments).join(' ');
-                console.log(text);
-            };
-        })(),
-        printErr: function(text) {
-            text = Array.prototype.slice.call(arguments).join(' ');
-            console.error(text);
-        },
-        canvas: (function() {
-            var canvas = document.getElementById('canvas');
-            //canvas.addEventListener("webglcontextlost", function(e) { alert('FIXME: WebGL context lost, please reload the page'); e.preventDefault(); }, false);
-            return canvas;
-        })(),
-        setStatus: function(text) {
-            console.log("status: " + text);
-        },
-        monitorRunDependencies: function(left) {
-            // no run dependencies to log
-        }
-      };
-      window.onerror = function() {
-        console.log("onerror: " + event);
-      };
+                console.error(text);
+            },
+            canvas: (function () {
+                var canvas = document.getElementById('canvas');
+                //canvas.addEventListener("webglcontextlost", function(e) { alert('FIXME: WebGL context lost, please reload the page'); e.preventDefault(); }, false);
+                return canvas;
+            })(),
+            setStatus: function (text) {
+                console.log("status: " + text);
+            },
+            monitorRunDependencies: function (left) {
+                // no run dependencies to log
+            }
+        };
+        window.onerror = function () {
+            console.log("onerror: " + event);
+        };
     </script>
-  </body>
+    <script src="CosmicExplorer.js"></script>
+</body>
 </html>
