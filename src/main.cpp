@@ -3,14 +3,25 @@
 #define SDL_MAIN_HANDLED
 #include <SDL.h>
 
+#if defined __EMSCRIPTEN__
+#include <emscripten.h>
+#include <SDL_opengles2.h>
+#else
 #include "gl3w.h"
+#endif
+
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
 #include "logic_manager.h"
 #include "ui_manager.h"
 
-#if defined _WIN32 || defined _WIN64
+#if defined __EMSCRIPTEN__
+#include <functional>
+static std::function<void()> loop;
+static void main_loop() { loop(); }
+int main(int, char**) {
+#elif defined _WIN32 || defined _WIN64
 int SDL_main(int, char**) {
 #else
 int main(int, char**) {
@@ -20,12 +31,20 @@ int main(int, char**) {
 		std::cerr << "Error: \n" << SDL_GetError();
 		return -1;
 	}
-	
+
+#if defined __EMSCRIPTEN__
+	const char* glsl_version = "#version 300 es";
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+#else
 	const char* glsl_version = "#version 130";
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+#endif
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
@@ -36,10 +55,12 @@ int main(int, char**) {
     SDL_GLContext gl_context = SDL_GL_CreateContext(window);
     SDL_GL_SetSwapInterval(1); // Enable vsync
 
+#ifndef __EMSCRIPTEN__
 	if(gl3wInit() != 0) {
 		std::cerr << "Failed to initialize OpenGL loader!\n";
 		return 1;
 	}
+#endif
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -62,7 +83,11 @@ int main(int, char**) {
 	logic.initializeSol();
 
 	bool done = false;
+#if defined __EMSCRIPTEN__
+	loop = [&]() {
+#else
 	while(!done) {
+#endif
 		SDL_Event event;
 
 		int mouseWheeled = 0;
@@ -88,14 +113,16 @@ int main(int, char**) {
 			// ImGui::ShowDemoWindow(&show_demo_window);
 
 		ImGui::Render();
-        SDL_GL_MakeCurrent(window, gl_context);
-        glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
-        glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-        glClear(GL_COLOR_BUFFER_BIT);
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-        SDL_GL_SwapWindow(window);
-	}
-
+		SDL_GL_MakeCurrent(window, gl_context);
+		glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
+		glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+		glClear(GL_COLOR_BUFFER_BIT);
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		SDL_GL_SwapWindow(window);
+	};
+#if defined __EMSCRIPTEN__
+	emscripten_set_main_loop(main_loop, 0, true);
+#endif
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();

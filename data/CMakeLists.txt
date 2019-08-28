@@ -1,3 +1,4 @@
 cmake_minimum_required(VERSION 3.5)
 
 install(FILES sol.json DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+install(FILES index.html DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})

@@ -10,15 +10,24 @@ add_library(${PROJECT_NAME}
 	imgui_impl_sdl.cpp
 	imgui_impl_opengl3.cpp
 )
+
 target_include_directories(${PROJECT_NAME}
 	PRIVATE 
 		${SDL2_INCLUDE_DIR}
 	PUBLIC 
 		${CMAKE_CURRENT_SOURCE_DIR} 
 )
-target_link_libraries(${PROJECT_NAME}
-	PRIVATE 
-		${SDL2_LIBRARIES}
-	PUBLIC
-		gl3w
-)
+
+if(${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
+	set_target_properties(${PROJECT_NAME} PROPERTIES 
+		COMPILE_FLAGS "-s USE_SDL=2"
+	)
+else()
+	target_link_libraries(${PROJECT_NAME}
+		PRIVATE 
+			${SDL2_LIBRARIES}
+		PUBLIC
+			gl3w
+	)
+
+endif()

@@ -62,6 +62,14 @@ $ pacman -S mingw-w64-x86_64-SDL2
 $ mingw32-make
 ```
 
+## Emscripten (WASM)
+This project supports a WASM compile target. You must have the [Emscripten](https://emscripten.org/) suite installed and configured to build to WASM.
+```console
+emconfigure cmake ..
+emmake make
+emmake make install
+```
+
 # Unit Testing
 Unit tests use [doctest](https://github.com/onqtam/doctest). To run, you may do:
 ```console
