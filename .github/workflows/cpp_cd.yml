@@ -1,0 +1,30 @@
+name: C++ CD
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  emscripten_release:
+    name: Deploy w/ Emscripten
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout from master
+      uses: actions/checkout@master
+    
+    - name: setup emcripten
+      uses: mymindstorm/setup-emsdk@v1
+    
+    - name: generate makefile
+      run: mkdir release && cd release && emconfigure cmake -DCMAKE_BUILD_TYPE=Release ..
+    
+    - name: make
+      run: cd release && make
+     
+    - name: deploy to github pages
+      uses: JamesIves/github-pages-deploy-action@master
+      env:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: release/bin
