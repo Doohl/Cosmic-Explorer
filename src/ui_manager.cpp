@@ -23,6 +23,7 @@ void UIManager::render(LogicManager& logicState, int wheelEvent) {
 	
 	if(infoOpen) renderInfo(logicState);
 	if(logOpen) renderLog();
+	if(browserOpen) renderBrowser(logicState);
 
 	if(logicState.universeAdvancing) {
 		universeTime timeStep = ImGui::GetIO().DeltaTime * static_cast<double>(logicState.timeScale);
@@ -63,6 +64,7 @@ void UIManager::renderCosmos(LogicManager& logicState, int wheelEvent) {
 	if(ImGui::BeginMenuBar()) {
 		if(ImGui::BeginMenu("Menus")) {
 			ImGui::MenuItem("Info", NULL, &infoOpen);
+			ImGui::MenuItem("Browser", NULL, &browserOpen);
 			ImGui::MenuItem("Log", NULL, &logOpen);
 			ImGui::EndMenu();
 		}
@@ -120,7 +122,7 @@ void UIManager::renderCosmos(LogicManager& logicState, int wheelEvent) {
 		if(orbitAlpha > 0.0f) {
 			drawList->AddEllipse(drawCenter, static_cast<float>(orbitalProps->getSemimajorAxis() * zoom),
 				static_cast<float>(orbitalProps->getSemiminorAxis() * zoom),
-				ImColor(Vec4(113.0f / 255.0f, 117.0f / 255.0f, 130.0f / 255.0f, orbitAlpha)), static_cast<float>(-orbitalProps->getLPeriapsis()), 100);
+				ImColor(Vec4(113.0f / 255.0f, 117.0f / 255.0f, 130.0f / 255.0f, orbitAlpha)), static_cast<float>(-orbitalProps->getLPeriapsis()), 200);
 		}
 	});
 
@@ -188,4 +190,36 @@ void UIManager::log(const char* msg) {
 		ImGui::EndChild();
 		ImGui::End();
 	}
+}
+
+
+void displayEntityBrowser(Entity* entity) {
+	ImGui::Text("Name: %s", entity->getName().data());
+	switch(entity->getType()) {
+		case EntityType::star:
+			ImGui::Text("Type: Star");
+			break;
+		case EntityType::planet:
+			ImGui::Text("Type: Planet");
+			break;
+	}
+	for(Entity* child : entity->getChildEntities()) {
+		if(ImGui::TreeNode((void*)(intptr_t)child->getID(), "%s", child->getName().data())) {
+			displayEntityBrowser(child);
+			ImGui::TreePop();
+		}
+	}
+}
+
+void UIManager::renderBrowser(LogicManager& logicState) {
+	ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_FirstUseEver);
+	if(!ImGui::Begin("System Browser", &browserOpen)) {
+		ImGui::End();
+		return;
+	}
+
+	Entity* root = logicState.getEntitiesBegin()->get();
+	displayEntityBrowser(root);
+
+	ImGui::End();
 }

@@ -29,6 +29,7 @@ public:
 
 	bool infoOpen = true;
 	bool logOpen = false;
+	bool browserOpen = false;
 
 private:
 	// Render game entities on the 'cosmos' widget
@@ -36,6 +37,7 @@ private:
 
 	void renderInfo(LogicManager& logicState);
 	void renderLog();
+	void renderBrowser(LogicManager& logicState);
 
 	// The current coordinates of the client camera
 	Vec2 cameraPosition = { 0, 0 };

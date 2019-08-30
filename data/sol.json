@@ -105,6 +105,86 @@
           }
         }
       ]
+    },
+    {
+      "name": "Jupiter",
+      "radius": 69911,
+      "mass": 1.8982e27,
+      "orbit": {
+        "epoch": "J2000",
+        "semimajorAxisAU": 5.2044,
+        "eccentricity": 0.0489,
+        "lAscendingDeg": 100.464,
+        "aPeriapsisDeg": 273.867,
+        "meanAnomalyDeg": 20.020
+      },
+      "children": [
+        {
+          "name": "Io",
+          "radius": 1821.6,
+          "mass": 8.931938e22,
+          "orbit": {
+            "epoch": -93312000,
+            "semimajorAxis": 421.8e3,
+            "eccentricity": 0.0041,
+            "lAscendingDeg": 43.977,
+            "aPeriapsisDeg": 84.129,
+            "meanAnomalyDeg": 342.021
+          }
+        },
+        {
+          "name": "Europa",
+          "radius": 1560.8,
+          "mass": 4.799844e22,
+          "orbit": {
+            "epoch": -93312000,
+            "semimajorAxis": 671100,
+            "eccentricity": 0.0094,
+            "lAscendingDeg": 219.106,
+            "aPeriapsisDeg": 88.970,
+            "meanAnomalyDeg": 171.016
+          }
+        },
+        {
+          "name": "Ganymede",
+          "radius": 2634.1,
+          "mass": 1.4819e23,
+          "orbit": {
+            "epoch": -93312000,
+            "semimajorAxis": 1070400,
+            "eccentricity": 0.0013,
+            "lAscendingDeg": 63.552,
+            "aPeriapsisDeg": 192.417,
+            "meanAnomalyDeg": 317.540
+          }
+        },
+        {
+          "name": "Callisto",
+          "radius": 2410.3,
+          "mass": 1.075938e23,
+          "orbit": {
+            "epoch": -93312000,
+            "semimajorAxis": 1882700,
+            "eccentricity": 0.0074,
+            "lAscendingDeg": 298.848,
+            "aPeriapsisDeg": 52.643,
+            "meanAnomalyDeg": 181.408
+          }
+        }
+      ]
+    },
+    {
+      "name": "1P/Halley",
+      "radius": 5.5,
+      "mass": 2.2e14,
+      "orbit": {
+        "epoch": -185241600,
+        "semimajorAxisAU": 17.834,
+        "eccentricity": 0.96714,
+        "lAscendingDeg": 58.42,
+        "aPeriapsisDeg": 111.33,
+        "meanAnomalyDeg": 38.38
+      }
     }
   ]
 }

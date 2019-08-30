@@ -127,7 +127,7 @@ void LogicManager::initializeSystem(json system) {
 			double minRadius = 2;
 			if(type == EntityType::star) {
 				minRadius = 6;
-			} else if(object.contains("children")) {
+			} else if(parent->getType() == EntityType::star) {
 				minRadius = 3;
 			}
 

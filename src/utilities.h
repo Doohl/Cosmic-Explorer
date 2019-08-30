@@ -22,7 +22,7 @@ namespace Util {
 	constexpr double J2000Unix = 946684800;
 
 	// Max allowed ellipse semimajor axis, in pixels
-	constexpr double MaxEllipseSemimajor = 2000;
+	constexpr double MaxEllipseSemimajor = 7000;
 	// Max allowed distance from a system's center (~150 AU)
 	constexpr double SystemEdge = 2.244e+10;
 }
