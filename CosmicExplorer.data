@@ -1,0 +1,190 @@
+{
+  "name": "Sol",
+  "stellarClass": "G",
+  "colorIndex": 0.656,
+  "absoluteMagnitude": 4.85,
+  "mass": 1.98855e+30,
+  "radius": 695700,
+  "temperature": 5778,
+  "luminosity": 1,
+  "age": 4.6,
+  "children": [
+    {
+      "name": "Mercury",
+      "radius": 2439.7,
+      "mass": 3.3011e+23,
+      "tilt": 0.034,
+      "orbit": {
+        "semimajorAxis": 57909050,
+        "eccentricity": 0.205630,
+        "epoch": "J2000",
+        "meanAnomaly": 3.050765719,
+        "lAscending": 0.843535081,
+        "aPeriapsis": 0.508309691
+      }
+    },
+    {
+      "name": "Venus",
+      "radius": 6051.8,
+      "mass": 4.867e24,
+      "orbit": {
+        "semimajorAxisAU": 0.72333199,
+        "eccentricity": 0.000677323,
+        "epoch": "J2000",
+        "meanAnomalyDeg": "49 53.21",
+        "lAscendingDeg": 76.68069,
+        "aPeriapsisDeg":  54.85229
+      }
+    },
+    {
+      "name": "Earth",
+      "radius": 6371.0,
+      "mass": 5.97237e+24,
+      "tilt": 23.4392811,
+      "orbit": {
+        "semimajorAxis": 149598023,
+        "eccentricity": 0.0167086,
+        "epoch": "J2000",
+        "meanAnomaly": 6.259047404,
+        "lAscending": -0.196535244,
+        "aPeriapsis": 1.99330266505
+      },
+      "children": [
+        {
+          "name": "Luna",
+          "radius": 1737.1,
+          "mass": 7.342e+22,
+          "tilt": 1.5424,
+          "orbit": {
+            "semimajorAxis": 384399,
+            "eccentricity": 0.0549,
+            "epoch": "J2000",
+            "meanAnomaly": 2.214976985708,
+            "lAscending": 2.18305783,
+            "aPeriapsis": 5.55276502
+          }
+        }
+      ]
+    },
+    {
+      "name": "Mars",
+      "radius": 3389.5,
+      "mass": 64171e+23,
+      "orbit": {
+        "semimajorAxisAU": 1.5237,
+        "eccentricity": 0.0934,
+        "meanAnomalyDeg": "19 16.62",
+        "lAscendingDeg": 49.57854,
+        "aPeriapsisDeg": 286.4623
+      },
+      "children": [
+        {
+          "name": "Phobos",
+          "radius": 11.1,
+          "mass": 1.072e16,
+          "orbit": {
+            "semimajorAxis": 9380,
+            "eccentricity": 0.0151,
+            "lAscendingDeg": 164.931,
+            "aPeriapsisDeg": 150.247,
+            "epoch": -1577836800,
+            "meanAnomalyDeg": 92.474
+          }
+        },
+        {
+          "name": "Deimos",
+          "radius": 6.27644,
+          "mass": 1.5e15,
+          "orbit": {
+            "semimajorAxis": 23460,
+            "eccentricity": 2e-4,
+            "lAscendingDeg": 339.6,
+            "aPeriapsisDeg": 290.496,
+            "epoch": -1577836800,
+            "meanAnomalyDeg": 296.230
+          }
+        }
+      ]
+    },
+    {
+      "name": "Jupiter",
+      "radius": 69911,
+      "mass": 1.8982e27,
+      "orbit": {
+        "epoch": "J2000",
+        "semimajorAxisAU": 5.2044,
+        "eccentricity": 0.0489,
+        "lAscendingDeg": 100.464,
+        "aPeriapsisDeg": 273.867,
+        "meanAnomalyDeg": 20.020
+      },
+      "children": [
+        {
+          "name": "Io",
+          "radius": 1821.6,
+          "mass": 8.931938e22,
+          "orbit": {
+            "epoch": -93312000,
+            "semimajorAxis": 421.8e3,
+            "eccentricity": 0.0041,
+            "lAscendingDeg": 43.977,
+            "aPeriapsisDeg": 84.129,
+            "meanAnomalyDeg": 342.021
+          }
+        },
+        {
+          "name": "Europa",
+          "radius": 1560.8,
+          "mass": 4.799844e22,
+          "orbit": {
+            "epoch": -93312000,
+            "semimajorAxis": 671100,
+            "eccentricity": 0.0094,
+            "lAscendingDeg": 219.106,
+            "aPeriapsisDeg": 88.970,
+            "meanAnomalyDeg": 171.016
+          }
+        },
+        {
+          "name": "Ganymede",
+          "radius": 2634.1,
+          "mass": 1.4819e23,
+          "orbit": {
+            "epoch": -93312000,
+            "semimajorAxis": 1070400,
+            "eccentricity": 0.0013,
+            "lAscendingDeg": 63.552,
+            "aPeriapsisDeg": 192.417,
+            "meanAnomalyDeg": 317.540
+          }
+        },
+        {
+          "name": "Callisto",
+          "radius": 2410.3,
+          "mass": 1.075938e23,
+          "orbit": {
+            "epoch": -93312000,
+            "semimajorAxis": 1882700,
+            "eccentricity": 0.0074,
+            "lAscendingDeg": 298.848,
+            "aPeriapsisDeg": 52.643,
+            "meanAnomalyDeg": 181.408
+          }
+        }
+      ]
+    },
+    {
+      "name": "1P/Halley",
+      "radius": 5.5,
+      "mass": 2.2e14,
+      "orbit": {
+        "epoch": -185241600,
+        "semimajorAxisAU": 17.834,
+        "eccentricity": 0.96714,
+        "lAscendingDeg": 58.42,
+        "aPeriapsisDeg": 111.33,
+        "meanAnomalyDeg": 38.38
+      }
+    }
+  ]
+}
