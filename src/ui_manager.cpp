@@ -18,8 +18,8 @@ Vec2 UIManager::getSDLWindowSize() const {
 	return { static_cast<double>(width), static_cast<double>(height) };
 }
 
-void UIManager::render(LogicManager& logicState, int wheelEvent) {
-	renderCosmos(logicState, wheelEvent);
+void UIManager::render(LogicManager& logicState) {
+	renderCosmos(logicState);
 	
 	if(infoOpen) renderInfo(logicState);
 	if(logOpen) renderLog();
@@ -29,6 +29,10 @@ void UIManager::render(LogicManager& logicState, int wheelEvent) {
 		universeTime timeStep = ImGui::GetIO().DeltaTime * static_cast<double>(logicState.timeScale);
 		logicState.clockForward(timeStep);
 	}
+}
+
+void UIManager::onScroll(double scrollFactor) {
+	nextZoom = scrollFactor;
 }
 
 void UIManager::setZoom(double newZoom) {
@@ -51,7 +55,7 @@ void UIManager::setZoom(double newZoom, Vec2 anchor) {
 	cameraZoom = newZoom;
 }
 
-void UIManager::renderCosmos(LogicManager& logicState, int wheelEvent) {
+void UIManager::renderCosmos(LogicManager& logicState) {
 	static bool toRenderCosmos = true;
 
 	Vec2 windowSize = getSDLWindowSize();
@@ -74,16 +78,6 @@ void UIManager::renderCosmos(LogicManager& logicState, int wheelEvent) {
 	}
 
 	if(ImGui::IsWindowFocused()) {
-		// Handle scroll wheel
-		{
-			Vec2 anchor = ImGui::GetMousePos();
-			if(wheelEvent > 0) {
-				setZoom(std::min(1.0, cameraZoom * 1.25), anchor);
-			} else if(wheelEvent < 0) {
-				setZoom(cameraZoom / 1.25, anchor);
-			}
-		}
-
 		// Handle mouse movement
 		{
 			if(ImGui::IsMouseDragging(0)) {
@@ -92,6 +86,16 @@ void UIManager::renderCosmos(LogicManager& logicState, int wheelEvent) {
 				cameraPosition.y -= delta.y / cameraZoom;
 				ImGui::ResetMouseDragDelta();
 			}
+		}
+		// Handle screen zooming
+		{
+			Vec2 anchor = ImGui::GetMousePos();
+			if(nextZoom > 0) {
+				setZoom(std::min(1.0, cameraZoom * nextZoom), anchor);
+			} else if(nextZoom < 0) {
+				setZoom(cameraZoom / abs(nextZoom), anchor);
+			}
+			nextZoom = 0.0;
 		}
 	}
 	ImDrawList* drawList = ImGui::GetWindowDrawList();

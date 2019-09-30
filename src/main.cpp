@@ -90,7 +90,6 @@ int main(int, char**) {
 #endif
 		SDL_Event event;
 
-		int mouseWheeled = 0;
 		while(SDL_PollEvent(&event)) {
 			ImGui_ImplSDL2_ProcessEvent(&event);
 			if(event.type == SDL_QUIT)
@@ -98,16 +97,23 @@ int main(int, char**) {
 			if(event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(window))
 				done = true;
 			if(event.type == SDL_MOUSEWHEEL && event.wheel.y > 0)
-				mouseWheeled = 1;
+				uiManager.onScroll(1.25);
 			if(event.type == SDL_MOUSEWHEEL && event.wheel.y < 0)
-				mouseWheeled = -1;
+				uiManager.onScroll(-1.25);
+			//if(event.type == SDL_MULTIGESTURE) {
+			//	if(std::fabs(event.mgesture.dDist) > 0.002) {
+			//		Vec2 windowSize = uiManager.getSDLWindowSize();
+			//		float touchX = windowSize.x * event.mgesture.x;
+			//		float touchY = windowSize.y * event.mgesture.y;
+			//	}
+			//}
 		}
 
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplSDL2_NewFrame(window);
 		ImGui::NewFrame();
 
-		uiManager.render(logic, mouseWheeled);
+		uiManager.render(logic);
 
 		// if(show_demo_window)
 			// ImGui::ShowDemoWindow(&show_demo_window);

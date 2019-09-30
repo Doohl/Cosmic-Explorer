@@ -16,10 +16,13 @@ public:
 		{}
 
 	// Render the entire game UI
-	void render(LogicManager& logicState, int wheelEvent);
+	void render(LogicManager& logicState);
 
 	// Get the size of the active SDL window
 	Vec2 getSDLWindowSize() const;
+
+	// Handle zoom event
+	void onScroll(double factor);
 
 	// Set a new zoom factor
 	void setZoom(double newZoom);
@@ -33,7 +36,7 @@ public:
 
 private:
 	// Render game entities on the 'cosmos' widget
-	void renderCosmos(LogicManager& logicState, int wheelEvent);
+	void renderCosmos(LogicManager& logicState);
 
 	void renderInfo(LogicManager& logicState);
 	void renderLog();
@@ -42,7 +45,9 @@ private:
 	// The current coordinates of the client camera
 	Vec2 cameraPosition = { 0, 0 };
 	// The zoom factor of the client camera
-	double cameraZoom = 0.000002f;
+	double cameraZoom = 0.000002;
+	// Next zoom multiplier
+	double nextZoom = 0.0;
 
 	Vec2 prevMousePos = { -1, -1 };
 
